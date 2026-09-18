@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form VIII Certificate - {{ cert_number }} | Government of India</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-100 p-4 sm:p-8">
+
+    <!-- Action Bar (Hidden on Print) -->
+    <div class="max-w-4xl mx-auto mb-6 flex justify-between items-center no-print">
+        <a href="/" class="text-sm font-semibold text-slate-700 hover:text-slate-900 flex items-center gap-1.5">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Portal
+        </a>
+        <div class="flex flex-wrap gap-2">
+            <a href="/api/certificates/{{ cert.certificate_number }}/download-pdf" class="bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-lg shadow transition flex items-center gap-1.5">
+                <i data-lucide="file-down" class="w-4 h-4"></i> Download PDF
+            </a>
+            <a href="/sticker/{{ cert.certificate_number }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-lg shadow transition flex items-center gap-1.5">
+                <i data-lucide="tag" class="w-4 h-4"></i> Print Scale Sticker
+            </a>
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-lg shadow transition flex items-center gap-1.5">
+                <i data-lucide="printer" class="w-4 h-4"></i> Print Official Certificate
+            </button>
+        </div>
+    </div>
+
+    <!-- Official Certificate Card -->
+    <div class="max-w-4xl mx-auto bg-white border-4 border-slate-900 p-8 sm:p-12 shadow-2xl relative cert-watermark print-card">
+
+        <!-- Top Emblem & Header -->
+        <div class="text-center space-y-2 border-b-2 border-slate-900 pb-6">
+            <div class="text-3xl font-bold">🏛️</div>
+            <div class="text-xs uppercase tracking-widest font-extrabold text-slate-800">Government of India</div>
+            <div class="text-lg sm:text-xl font-extrabold text-slate-950 uppercase tracking-wide">
+                Ministry of Consumer Affairs, Food & Public Distribution
+            </div>
+            <div class="text-xs font-bold text-slate-700">DEPARTMENT OF CONSUMER AFFAIRS • LEGAL METROLOGY DIVISION</div>
+            
+            <div class="inline-block border-2 border-slate-900 px-6 py-1.5 mt-2">
+                <div class="text-sm sm:text-base font-extrabold tracking-wider uppercase">
+                    FORM - VIII: CERTIFICATE OF VERIFICATION
+                </div>
+                <div class="text-[10px] text-slate-600">[See Rule 14(1) of Legal Metrology (General) Rules, 2011]</div>
+            </div>
+        </div>
+
+        <!-- Certificate Body -->
+        <div class="py-6 space-y-6 text-xs sm:text-sm leading-relaxed text-slate-900">
+
+            <div class="flex justify-between items-center bg-slate-50 p-3 border border-slate-300 font-mono text-xs">
+                <div><strong>Certificate No:</strong> {{ cert.certificate_number }}</div>
+                <div><strong>Stamping Date:</strong> {{ cert.issue_date.strftime('%d-%m-%Y') }}</div>
+                <div><strong>Valid Till:</strong> <span class="text-emerald-800 font-bold">{{ cert.expiry_date.strftime('%d-%m-%Y') }}</span></div>
+            </div>
+
+            <p>
+                I hereby certify that I have this day examined, tested and verified the commercial weighing instrument detailed hereunder belonging to 
+                <strong>{{ cert.instrument.shop_name }}</strong>, located at <strong>{{ cert.instrument.shop_address }}</strong>, District <strong>{{ cert.instrument.district }}</strong>, 
+                and found the same to be compliant with the provisions of the <strong>Legal Metrology Act, 2009 (1 of 2010)</strong> and Rules made thereunder.
+            </p>
+
+            <!-- Technical Specification Table -->
+            <table class="w-full border-collapse border border-slate-900 text-xs">
+                <tbody>
+                    <tr class="border-b border-slate-900">
+                        <td class="border-r border-slate-900 p-2 font-bold bg-slate-50 w-1/3">Type of Instrument</td>
+                        <td class="p-2">{{ cert.instrument.instrument_type }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="border-r border-slate-900 p-2 font-bold bg-slate-50">Manufacturer / Brand & Make</td>
+                        <td class="p-2">{{ cert.instrument.brand_make }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="border-r border-slate-900 p-2 font-bold bg-slate-50">Model Approval Number</td>
+                        <td class="p-2 font-mono font-semibold">{{ cert.instrument.model_approval_number }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="border-r border-slate-900 p-2 font-bold bg-slate-50">Machine Serial Number</td>
+                        <td class="p-2 font-mono font-bold">{{ cert.instrument.serial_number }}</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="border-r border-slate-900 p-2 font-bold bg-slate-50">Maximum Approved Capacity</td>
+                        <td class="p-2 font-semibold">{{ cert.instrument.max_capacity }} ({{ cert.instrument.accuracy_class }})</td>
+                    </tr>
+                    <tr class="border-b border-slate-900">
+                        <td class="border-r border-slate-900 p-2 font-bold bg-slate-50">Observed Verification Error</td>
+                        <td class="p-2 font-mono text-emerald-800 font-bold">± {{ cert.inspection.max_error_observed }} g (Within Legal Permissible Limits)</td>
+                    </tr>
+                    <tr>
+                        <td class="border-r border-slate-900 p-2 font-bold bg-slate-50">GPS Verification Check-in</td>
+                        <td class="p-2 font-mono text-[11px] text-slate-700">Verified on-site (Distance verified: {{ cert.inspection.distance_from_shop_meters }} meters from premises)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- QR Code & Signatures Footer -->
+            <div class="pt-6 border-t-2 border-slate-900 flex justify-between items-end">
+                <!-- QR Seal -->
+                <div class="text-center space-y-1">
+                    <img src="{{ cert.qr_code_filename }}" alt="Official QR Seal" class="w-32 h-32 border-2 border-slate-900 p-1">
+                    <div class="text-[9px] font-mono font-bold uppercase">Scan to Verify Authenticity</div>
+                </div>
+
+                <!-- Legal Warning -->
+                <div class="text-[10px] text-slate-500 max-w-xs space-y-1">
+                    <p><strong>Note:</strong> Under Section 24, tampering or using an unverified weighing scale carries a fine of up to ₹25,000 and imprisonment.</p>
+                    <p class="font-mono text-[9px]">Hash: {{ cert.data_hash[:24] }}...</p>
+                </div>
+
+                <!-- Inspector Signature & Seal -->
+                <div class="text-center space-y-2">
+                    <div class="text-2xl font-script text-slate-800 italic font-serif">D.K. Verma</div>
+                    <div class="border-t border-slate-900 pt-1 text-xs">
+                        <div class="font-bold text-slate-950">{{ cert.inspection.inspector.full_name }}</div>
+                        <div class="text-[11px] text-slate-600">Legal Metrology Officer</div>
+                        <div class="text-[10px] font-mono text-slate-500">Badge: {{ cert.inspection.inspector.badge_number }}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

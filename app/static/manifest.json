@@ -1,0 +1,16 @@
+{
+  "name": "DISHA AI Legal Metrology",
+  "short_name": "DISHA AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F2942",
+  "theme_color": "#0F2942",
+  "description": "National Online Verification and Stamping System for Weighing and Measuring Instruments",
+  "icons": [
+    {
+      "src": "/static/images/emblem_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

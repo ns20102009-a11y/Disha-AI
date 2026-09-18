@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+
+{% block title %}DISHA AI | Online Verification System for Weighing & Measuring Instruments{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+    <!-- Hero Banner -->
+    <div class="bg-gradient-to-br from-gov-blue via-slate-800 to-slate-900 text-white rounded-2xl p-8 sm:p-12 shadow-xl relative overflow-hidden">
+        <div class="absolute right-0 top-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-3xl space-y-4 relative z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-400/20 text-amber-300 border border-amber-400/30 rounded-full text-xs font-semibold">
+                <span data-i18n="hero_tag">National Legal Metrology Portal • Government of India</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight" data-i18n="hero_title">
+                Online Verification & Digital Stamping System for Weighing Instruments
+            </h1>
+            <p class="text-slate-300 text-base sm:text-lg leading-relaxed" data-i18n="hero_desc">
+                Replacing physical lead stamping and easily-forged paper certificates with <strong>GPS-geofenced field verifications</strong>, <strong>tamper-proof cryptographic QR seals</strong>, and <strong>instant public citizen verification</strong>.
+            </p>
+            <div class="pt-2 flex flex-wrap gap-3">
+                <a href="/trader" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-5 py-2.5 rounded-lg shadow-md transition inline-flex items-center gap-2">
+                    <i data-lucide="store" class="w-4 h-4"></i> <span data-i18n="btn_trader">Enter Trader Portal</span>
+                </a>
+                <a href="/inspector" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-lg shadow-md transition inline-flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i> <span data-i18n="btn_inspector">Inspector (LMO) App</span>
+                </a>
+                <a href="#quick-demo" class="bg-slate-700/80 hover:bg-slate-700 text-white font-medium px-5 py-2.5 rounded-lg border border-slate-600 transition inline-flex items-center gap-2">
+                    <i data-lucide="scale" class="w-4 h-4 text-amber-400"></i> <span data-i18n="btn_demo">View Verified Scales</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4 Role Portals Grid -->
+    <div>
+        <div class="text-center max-w-2xl mx-auto mb-8">
+            <h2 class="text-2xl font-bold text-slate-900" data-i18n="role_heading">Choose Your Operational Role</h2>
+            <p class="text-sm text-slate-600 mt-1">Explore how each stakeholder interacts with the DISHA AI ecosystem</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1: Trader -->
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+                        <i data-lucide="store" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">1. Trader / Scale Owner</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Register new commercial scales, platform balances or weighbridges. Calculate statutory verification fees and download official QR seal stickers.
+                    </p>
+                </div>
+                <div class="pt-6">
+                    <a href="/trader" class="w-full text-center block bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-lg transition">
+                        Open Trader Portal →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2: Inspector (LMO) -->
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between border-t-4 border-t-emerald-600">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">2. Field Officer (LMO)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Geofenced field inspections. App blocks fake approvals unless within 150m of the shop. Run OIML R-76 tests and read live IoT scale weights directly.
+                    </p>
+                </div>
+                <div class="pt-6">
+                    <a href="/inspector" class="w-full text-center block bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold py-2.5 rounded-lg transition">
+                        Open Field App →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3: Citizen / Public Scanner -->
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center">
+                        <i data-lucide="qr-code" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">3. Citizen & Consumer</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Scan the QR sticker on any shop scale to verify genuine government calibration. View validity dates and report short-weighing fraud in 1 click.
+                    </p>
+                </div>
+                <div class="pt-6">
+                    <a href="#scanner" class="w-full text-center block bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2.5 rounded-lg transition">
+                        Scan / Verify Scale →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 4: Ministry Admin -->
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center">
+                        <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">4. Ministry Admin</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        National dashboard tracking compliance rates, overdue re-verifications, inspector audit trails, and consumer grievance heatmaps.
+                    </p>
+                </div>
+                <div class="pt-6">
+                    <a href="/admin" class="w-full text-center block bg-purple-700 hover:bg-purple-800 text-white text-xs font-semibold py-2.5 rounded-lg transition">
+                        Open Ministry Dashboard →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Companion Innovation Banner: ProductGuard AI -->
+        <div class="mt-8 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-6 border border-indigo-500/40 text-white shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div class="space-y-2 max-w-2xl">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="bg-amber-400 text-slate-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">NEW MODULE</span>
+                    <span class="bg-red-500/20 text-red-300 border border-red-500/30 text-[10px] font-semibold px-2 py-0.5 rounded-full">FSSAI & Maharashtra FDA Intelligence</span>
+                </div>
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <span>ProductGuard AI: Batch-Level Product Safety & Recall Scanner</span>
+                </h3>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    While <strong>DISHA AI</strong> verifies physical weighing accuracy under the Legal Metrology Act, 2009, <strong>ProductGuard AI</strong> provides the critical consumer safety layer—verifying that packaged goods are free from toxic contaminants, altered expiries, and active FDA recall orders.
+                </p>
+            </div>
+            <a href="/productguard" class="shrink-0 px-5 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition flex items-center gap-2 shadow-md hover:scale-105">
+                <i data-lucide="scan-barcode" class="w-4 h-4"></i>
+                <span>Open ProductGuard AI →</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick Demo Showcase for Judges -->
+    <div id="quick-demo" class="bg-amber-50 rounded-2xl p-8 border border-amber-200 shadow-sm">
+        <div class="flex items-center gap-3 mb-4">
+            <span class="p-2 bg-amber-500 text-slate-950 rounded-lg"><i data-lucide="award" class="w-5 h-5"></i></span>
+            <div>
+                <h3 class="text-xl font-bold text-slate-900">National Field Verification Showcase</h3>
+                <p class="text-xs text-slate-600">Real-time commercial scales, platform weighers, and heavy weighbridges across India</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <!-- Sample 1 -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">🟢 VERIFIED & ACTIVE</span>
+                    <span class="text-xs text-slate-400">Class III Counter</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm">Sharma Kirana Store (Connaught Place)</h4>
+                <p class="text-xs text-slate-500">Serial: ES-2023-881920 • Capacity: 30 kg</p>
+                <div class="pt-2 flex flex-wrap gap-2">
+                    <a href="/verify/{{ demo_cert_number }}" id="demo-cert-link" class="text-xs bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded font-medium flex-1 text-center">
+                        Trust Badge
+                    </a>
+                    <a href="/certificate/{{ demo_cert_number }}" id="demo-cert-pdf" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded font-medium text-center">
+                        Form-VIII Cert
+                    </a>
+                    <a href="/inspector?inst_id=1" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1.5 rounded font-medium text-center">
+                        Inspect
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sample 2 -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-semibold text-amber-700 bg-amber-100 px-2 py-0.5 rounded">🟡 PENDING FIELD TEST</span>
+                    <span class="text-xs text-slate-400">Platform 300kg</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm">Sharma Kirana Godown (Warehouse)</h4>
+                <p class="text-xs text-slate-500">Serial: AV-2024-554109 • Model: IND/11/2022/604</p>
+                <div class="pt-2">
+                    <a href="/inspector?inst_id=2" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded font-medium block text-center">
+                        Inspect Now in Field App →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sample 3 -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-semibold text-purple-700 bg-purple-100 px-2 py-0.5 rounded">⚖️ 100T WEIGHBRIDGE</span>
+                    <span class="text-xs text-slate-400">Highway Logistics</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm">NH48 Toll Public Weighbridge</h4>
+                <p class="text-xs text-slate-500">Serial: SAN-WB-100T-092 • Gurugram Toll</p>
+                <div class="pt-2">
+                    <a href="/inspector?inst_id=3" class="text-xs bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded font-medium block text-center">
+                        Perform Calibration Check →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Scanner Section with Live Camera Viewfinder -->
+    <div id="scanner" class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm" x-data="{ certInput: '', cameraActive: false }">
+        <div class="max-w-xl mx-auto text-center space-y-4">
+            <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center mx-auto">
+                <i data-lucide="scan-line" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900">Direct Certificate & Scale QR Verification</h3>
+            <p class="text-xs text-slate-500">Scan using your phone / laptop camera or enter a certificate number manually</p>
+            
+            <!-- Camera Toggle Button -->
+            <div class="pt-2">
+                <button @click="cameraActive = !cameraActive; if(cameraActive) { startCameraScanner(); } else { stopCameraScanner(); }"
+                        class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-sm transition inline-flex items-center gap-2">
+                    <i data-lucide="camera" class="w-4 h-4"></i>
+                    <span x-text="cameraActive ? 'Stop Camera' : 'Start Live Camera Scanner'"></span>
+                </button>
+            </div>
+
+            <!-- Live Camera Viewfinder Container -->
+            <div x-show="cameraActive" class="p-4 bg-slate-900 rounded-2xl max-w-sm mx-auto overflow-hidden border-2 border-emerald-500" style="display: none;">
+                <div id="qr-reader" class="w-full text-white"></div>
+                <p class="text-[11px] text-slate-300 mt-2">Align the QR code sticker on the scale within the frame</p>
+            </div>
+
+            <!-- Manual Input Alternative -->
+            <div class="flex gap-2 max-w-md mx-auto pt-2 border-t border-slate-100">
+                <input type="text" x-model="certInput" placeholder="e.g. {{ demo_cert_number }}" 
+                       class="flex-1 px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono">
+                <button @click="const val = certInput.trim() || '{{ demo_cert_number }}'; window.location.href='/verify/' + val"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition">
+                    Verify
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- HTML5 QR Code Library -->
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+    let html5QrCodeScanner = null;
+
+    function startCameraScanner() {
+        if (!html5QrCodeScanner) {
+            html5QrCodeScanner = new Html5Qrcode("qr-reader");
+        }
+        html5QrCodeScanner.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: { width: 220, height: 220 } },
+            (decodedText) => {
+                console.log("QR Scanned:", decodedText);
+                if (decodedText.includes('/verify/')) {
+                    window.location.href = decodedText;
+                } else {
+                    window.location.href = '/verify/' + decodedText.trim();
+                }
+                html5QrCodeScanner.stop();
+            },
+            (error) => {}
+        ).catch(err => {
+            alert("Camera access denied or unavailable: " + err);
+        });
+    }
+
+    function stopCameraScanner() {
+        if (html5QrCodeScanner) {
+            html5QrCodeScanner.stop().catch(() => {});
+        }
+    }
+</script>
+{% endblock %}

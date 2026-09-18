@@ -1,0 +1,1533 @@
+{% extends "base.html" %}
+
+{% block title %}ProductGuard AI | Product Safety, Medicines & Baby Nutrition Verification{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6" id="pg-app">
+
+    <!-- Top Ground Truth & Multi-Sector Banner -->
+    <div class="bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-900 rounded-2xl p-5 border border-indigo-500/30 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute right-0 top-0 translate-x-8 -translate-y-8 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 relative z-10">
+            <div class="space-y-1.5 max-w-3xl">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="bg-amber-400/20 text-amber-300 border border-amber-400/40 text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1">
+                        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> <span id="txt-banner-badge">CDSCO & FSSAI Multi-Sector Intelligence Layer</span>
+                    </span>
+                    <span class="bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[11px] font-medium px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                        <i data-lucide="heart-pulse" class="w-3 h-3 text-rose-400"></i> Health & Pharma
+                    </span>
+                    <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[11px] font-medium px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                        <i data-lucide="baby" class="w-3 h-3 text-blue-400"></i> Baby Products & Infant Nutrition
+                    </span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
+                    <span class="text-amber-400">ProductGuard AI</span>
+                    <span class="text-xs bg-indigo-600/80 text-indigo-100 font-semibold px-2 py-0.5 rounded-md uppercase tracking-wider">National Safety Grid</span>
+                </h1>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed" id="txt-mission-desc">
+                    Bridging the information gap between official laboratory recall gazettes and consumers. Instant batch-level safety intelligence for <strong>Pediatric Medicines, Infant Nutrition, and Packaged Consumables</strong> before purchase or consumption.
+                </p>
+            </div>
+
+            <!-- Language & Action Controls -->
+            <div class="flex items-center gap-2.5 shrink-0">
+                <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-1 flex items-center shadow-inner">
+                    <button type="button" onclick="setPGScriptLang('en')" id="btn-lang-en" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 bg-amber-500 text-slate-950 shadow">
+                        English
+                    </button>
+                    <button type="button" onclick="setPGScriptLang('hi')" id="btn-lang-hi" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 text-slate-300 hover:text-white">
+                        हिन्दी
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Sector & Module Hub Navigation Bar -->
+    <div class="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-sm flex items-center gap-1.5 overflow-x-auto">
+        <button type="button" onclick="switchPGHub('scanner')" id="tab-scanner" class="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-indigo-600 text-white shadow">
+            <i data-lucide="scan-barcode" class="w-4 h-4"></i>
+            <span id="txt-tab-scanner">Universal Scanner & Tester</span>
+        </button>
+        <button type="button" onclick="switchPGHub('health')" id="tab-health" class="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-600 hover:bg-slate-100">
+            <i data-lucide="pill" class="w-4 h-4 text-rose-600"></i>
+            <span id="txt-tab-health">Health Sector (Medicines & Pharma)</span>
+            <span class="bg-rose-100 text-rose-700 text-[10px] px-1.5 py-0.5 rounded font-bold">CDSCO</span>
+        </button>
+        <button type="button" onclick="switchPGHub('baby')" id="tab-baby" class="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-600 hover:bg-slate-100">
+            <i data-lucide="baby" class="w-4 h-4 text-blue-600"></i>
+            <span id="txt-tab-baby">Baby Products (Infant Consumables)</span>
+            <span class="bg-blue-100 text-blue-700 text-[10px] px-1.5 py-0.5 rounded font-bold">Infant Shield</span>
+        </button>
+        <button type="button" onclick="switchPGHub('grievance')" id="tab-grievance" class="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-600 hover:bg-slate-100">
+            <i data-lucide="megaphone" class="w-4 h-4 text-amber-600"></i>
+            <span id="txt-tab-grievance">Consumer Grievance Desk</span>
+            <span class="bg-amber-100 text-amber-800 text-[10px] px-1.5 py-0.5 rounded font-bold">Track Docket</span>
+        </button>
+        <button type="button" onclick="switchPGHub('retailer')" id="tab-retailer" class="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-600 hover:bg-slate-100">
+            <i data-lucide="store" class="w-4 h-4 text-emerald-600"></i>
+            <span id="txt-tab-retailer">Retailer Shelf Audit</span>
+        </button>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 1: UNIVERSAL SCANNER & TESTER                                    -->
+    <!-- ==================================================================== -->
+    <div id="hub-scanner" class="space-y-6">
+        
+        <!-- Multi-Sector One-Tap Test Presets for Judges -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <div class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i>
+                        <span id="txt-presets-title">Evaluator & Judge Rapid Testing Presets</span>
+                    </div>
+                    <div class="text-xs text-slate-600" id="txt-presets-sub">Select any scenario to test batch-level intelligence across sectors:</div>
+                </div>
+            </div>
+
+            <!-- Grouped Sector Pills -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <!-- Health Presets -->
+                <div class="p-2.5 bg-rose-50/50 rounded-xl border border-rose-200/80 space-y-1.5">
+                    <div class="text-[11px] font-bold text-rose-800 flex items-center gap-1">
+                        <i data-lucide="activity" class="w-3 h-3 text-rose-600"></i>
+                        <span id="txt-pre-health-hdr">Health Sector (Medicines)</span>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <button type="button" onclick="runPreset('test3')" class="px-2.5 py-1.5 bg-white hover:bg-rose-100 text-rose-900 border border-rose-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Coldrif Syrup (Batch SR-13)</span>
+                            <span class="bg-rose-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🔴 TOXIC DEG</span>
+                        </button>
+                        <button type="button" onclick="runPreset('test_azithro_fake')" class="px-2.5 py-1.5 bg-white hover:bg-rose-100 text-rose-900 border border-rose-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Spurious Azicip (Batch AZ-8029)</span>
+                            <span class="bg-rose-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🔴 0% API FAKE</span>
+                        </button>
+                        <button type="button" onclick="runPreset('test_azithro_safe')" class="px-2.5 py-1.5 bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Cipla Azicip Genuine (AZ-8021)</span>
+                            <span class="bg-emerald-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🟢 99.8% HPLC</span>
+                        </button>
+                        <button type="button" onclick="runPreset('test_insulin')" class="px-2.5 py-1.5 bg-white hover:bg-rose-100 text-rose-900 border border-rose-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Lantus Insulin (LT-1108)</span>
+                            <span class="bg-rose-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🔴 COLD-CHAIN</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Baby Products Presets -->
+                <div class="p-2.5 bg-blue-50/50 rounded-xl border border-blue-200/80 space-y-1.5">
+                    <div class="text-[11px] font-bold text-blue-800 flex items-center gap-1">
+                        <i data-lucide="baby" class="w-3 h-3 text-blue-600"></i>
+                        <span id="txt-pre-baby-hdr">Baby Products & Nutrition</span>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <button type="button" onclick="runPreset('test_lactogen')" class="px-2.5 py-1.5 bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Nestlé Lactogen 1 (LAC-4109)</span>
+                            <span class="bg-emerald-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🟢 ZERO CRONO</span>
+                        </button>
+                        <button type="button" onclick="runPreset('test_cerelac')" class="px-2.5 py-1.5 bg-white hover:bg-rose-100 text-rose-900 border border-rose-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Cerelac Wheat-Apple (CER-892)</span>
+                            <span class="bg-rose-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🔴 EXCESS SUGAR</span>
+                        </button>
+                        <button type="button" onclick="runPreset('test_gripe_bad')" class="px-2.5 py-1.5 bg-white hover:bg-rose-100 text-rose-900 border border-rose-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Gripe Water (Batch WD-2049)</span>
+                            <span class="bg-rose-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🔴 FUNGAL SPORE</span>
+                        </button>
+                        <button type="button" onclick="runPreset('test_vitd')" class="px-2.5 py-1.5 bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>D-Well Baby Vit D3 (VD-5520)</span>
+                            <span class="bg-emerald-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🟢 CALIBRATED</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Food & FMCG Presets -->
+                <div class="p-2.5 bg-emerald-50/50 rounded-xl border border-emerald-200/80 space-y-1.5">
+                    <div class="text-[11px] font-bold text-emerald-800 flex items-center gap-1">
+                        <i data-lucide="shopping-bag" class="w-3 h-3 text-emerald-600"></i>
+                        <span id="txt-pre-food-hdr">Food & Dairy Consumables</span>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <button type="button" onclick="runPreset('test1')" class="px-2.5 py-1.5 bg-white hover:bg-emerald-100 text-emerald-900 border border-emerald-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Amul Taaza Milk (AM-2409)</span>
+                            <span class="bg-emerald-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🟢 SAFE MILK</span>
+                        </button>
+                        <button type="button" onclick="runPreset('test2')" class="px-2.5 py-1.5 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Harvest Bread (HB-1102)</span>
+                            <span class="bg-amber-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🟡 EXPIRES 24H</span>
+                        </button>
+                        <button type="button" onclick="runPreset('test_oil_bad')" class="px-2.5 py-1.5 bg-white hover:bg-rose-100 text-rose-900 border border-rose-300 rounded-lg text-xs font-bold text-left transition flex items-center justify-between shadow-xs">
+                            <span>Fortune Mustard Oil (FT-9022)</span>
+                            <span class="bg-rose-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold">🔴 ARGEMONE</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scanner Viewport & Safety Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Camera / OCR Reader Viewport -->
+            <div class="lg:col-span-5 space-y-4">
+                <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-lg text-white space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="camera" class="w-4 h-4 text-amber-400"></i>
+                            <h2 class="text-sm font-bold tracking-tight" id="txt-scanner-title">Smart Multi-Modal Camera Scanner</h2>
+                        </div>
+                        <span class="text-[11px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span>Vision OCR Ready</span>
+                        </span>
+                    </div>
+
+                    <!-- Viewport -->
+                    <div class="relative w-full aspect-[4/3] bg-slate-950 rounded-xl overflow-hidden border border-slate-700 flex items-center justify-center shadow-inner">
+                        <div id="camera-graphic" class="text-center space-y-2 p-4">
+                            <div class="w-16 h-16 mx-auto rounded-full bg-slate-800/80 border border-slate-600 flex items-center justify-center text-slate-400">
+                                <i data-lucide="scan-line" class="w-8 h-8 text-amber-400"></i>
+                            </div>
+                            <p class="text-xs text-slate-300 font-medium" id="txt-align-packaging">Align Barcode, Drug Blister or Baby Formula Label</p>
+                            <p class="text-[11px] text-slate-500">Select any preset scenario above or search manually</p>
+                        </div>
+                        <div id="camera-detected-preview" class="hidden text-center space-y-2 p-4">
+                            <div id="preview-image-badge" class="inline-block px-3 py-1 rounded-full text-xs font-bold"></div>
+                            <div id="preview-image-name" class="text-sm font-bold text-white"></div>
+                            <div id="preview-image-batch" class="text-xs text-amber-300 font-mono"></div>
+                            <div id="preview-image-sector" class="text-[11px] text-slate-400"></div>
+                        </div>
+
+                        <!-- Reticle Corners -->
+                        <div class="absolute inset-4 border border-dashed border-white/20 rounded-lg pointer-events-none">
+                            <div class="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-amber-400"></div>
+                            <div class="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-amber-400"></div>
+                            <div class="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-amber-400"></div>
+                            <div class="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-amber-400"></div>
+                        </div>
+
+                        <div id="laser-sweep" class="absolute left-4 right-4 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent shadow-[0_0_12px_rgba(251,191,36,0.8)] pointer-events-none animate-bounce"></div>
+
+                        <div class="absolute bottom-2 inset-x-2 flex items-center justify-between px-2 text-[10px] text-slate-400 bg-slate-900/80 backdrop-blur rounded-lg py-1 border border-slate-700/60">
+                            <span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i> CDSCO & FSSAI Verification Grid</span>
+                            <span class="text-amber-400 font-mono">Real-time</span>
+                        </div>
+                    </div>
+
+                    <!-- Manual Search -->
+                    <div class="space-y-2 pt-1 border-t border-slate-800">
+                        <label class="text-xs font-medium text-slate-300 flex items-center justify-between">
+                            <span id="txt-manual-fallback-label">Manual Batch / Barcode Search</span>
+                            <span class="text-[10px] text-slate-400">Any sector SKU</span>
+                        </label>
+                        <div class="flex gap-2">
+                            <div class="relative flex-1">
+                                <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-3 text-slate-400"></i>
+                                <input type="text" id="input-batch-search" placeholder="e.g. SR-13, AZ-8021, LAC-4109, CER-892"
+                                       class="w-full pl-9 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition font-mono uppercase">
+                            </div>
+                            <button type="button" onclick="performManualSearch()" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition flex items-center gap-1 shadow">
+                                <span id="txt-btn-verify">Verify</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- OCR Extraction Details -->
+                    <div id="ocr-parsed-box" class="bg-slate-950 rounded-xl p-3 border border-slate-800 text-[11px] space-y-1.5 hidden">
+                        <div class="font-bold text-amber-400 text-xs flex items-center gap-1">
+                            <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                            <span>Neural OCR Extracted Parameters</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-slate-300 font-mono text-[10px]">
+                            <div>Brand: <span id="ocr-brand" class="text-white font-bold">-</span></div>
+                            <div>Batch: <span id="ocr-batch" class="text-amber-300 font-bold">-</span></div>
+                            <div>Sector: <span id="ocr-sector" class="text-slate-300">-</span></div>
+                            <div>Storage: <span id="ocr-storage" class="text-slate-300">-</span></div>
+                            <div>License: <span id="ocr-fssai" class="text-slate-300">-</span></div>
+                            <div>MRP: <span id="ocr-mrp" class="text-emerald-400 font-bold">-</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Structured Product Safety Card -->
+            <div class="lg:col-span-7 space-y-4">
+                <div id="card-placeholder" class="bg-white rounded-2xl p-8 border-2 border-dashed border-slate-200 text-center space-y-3">
+                    <div class="w-14 h-14 mx-auto rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-800" id="txt-ready-heading">Ready to Verify Batch Safety</h3>
+                    <p class="text-xs text-slate-500 max-w-md mx-auto" id="txt-ready-desc">
+                        Select one of the <strong>One-Tap Presets</strong> above or enter a batch number to view instant laboratory safety status, dynamic countdown, clinical warnings, and regulatory seizure notices.
+                    </p>
+                </div>
+
+                <!-- Structured Result Card -->
+                <div id="card-result" class="hidden space-y-4">
+                    <!-- Verdict Banner -->
+                    <div id="verdict-banner-container" class="rounded-2xl p-5 border text-white shadow-md relative overflow-hidden transition-all duration-300">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="space-y-1">
+                                <span id="verdict-pill" class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-block"></span>
+                                <h2 id="verdict-title" class="text-xl sm:text-2xl font-extrabold tracking-tight"></h2>
+                                <p id="verdict-countdown" class="text-sm font-semibold opacity-95 flex items-center gap-1.5"></p>
+                            </div>
+                            <div id="verdict-icon-container" class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center shrink-0"></div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-white/20 text-xs font-medium opacity-90" id="verdict-advice"></div>
+                    </div>
+
+                    <!-- Details Card -->
+                    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-start justify-between gap-4 pb-3 border-b border-slate-100">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider" id="card-category"></span>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-slate-100 text-slate-600" id="card-sector-badge"></span>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-900 mt-0.5" id="card-product-name"></h3>
+                                <div class="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
+                                    <span>Brand: <strong class="text-slate-800" id="card-brand"></strong></span>
+                                    <span>•</span>
+                                    <span>License: <code class="font-mono text-slate-700 font-semibold" id="card-fssai"></code></span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs text-slate-400">MRP</div>
+                                <div class="text-lg font-extrabold text-slate-900" id="card-mrp"></div>
+                                <div class="text-[11px] text-slate-500" id="card-net-qty"></div>
+                            </div>
+                        </div>
+
+                        <!-- USP Box -->
+                        <div id="usp-distinction-box" class="p-3 rounded-xl border text-xs space-y-1">
+                            <div class="font-bold flex items-center gap-1.5" id="usp-distinction-title">
+                                <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                                <span>Batch-Level Safety Intelligence</span>
+                            </div>
+                            <p id="usp-distinction-text" class="text-slate-600 leading-relaxed"></p>
+                        </div>
+
+                        <!-- Parameter Grid -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                                <div class="text-[10px] text-slate-400 font-medium">Batch Number</div>
+                                <div class="text-xs font-bold font-mono text-slate-800 mt-0.5" id="card-batch-number"></div>
+                            </div>
+                            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                                <div class="text-[10px] text-slate-400 font-medium">Manufacturing Date</div>
+                                <div class="text-xs font-bold text-slate-800 mt-0.5" id="card-mfg-date"></div>
+                            </div>
+                            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                                <div class="text-[10px] text-slate-400 font-medium">Expiry / Best Before</div>
+                                <div class="text-xs font-bold text-slate-800 mt-0.5" id="card-exp-date"></div>
+                            </div>
+                            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                                <div class="text-[10px] text-slate-400 font-medium">Storage Standard</div>
+                                <div class="text-xs font-bold text-indigo-700 mt-0.5 truncate" id="card-storage-temp"></div>
+                            </div>
+                        </div>
+
+                        <!-- Laboratory Testing Summary -->
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1">
+                            <div class="font-bold text-slate-700 flex items-center justify-between">
+                                <span class="flex items-center gap-1.5"><i data-lucide="microscope" class="w-3.5 h-3.5 text-indigo-600"></i> Laboratory Audit & Regulatory Findings</span>
+                                <span class="text-[10px] text-slate-400" id="card-audit-time"></span>
+                            </div>
+                            <p class="text-slate-600 text-[11px]" id="card-lab-summary"></p>
+                            <div class="text-[10px] text-slate-500 pt-1 border-t border-slate-200" id="card-reg-authority"></div>
+                        </div>
+
+                        <!-- Traceability Timeline -->
+                        <div class="space-y-2 pt-2 border-t border-slate-100">
+                            <div class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                <i data-lucide="git-commit" class="w-3.5 h-3.5 text-amber-500"></i>
+                                <span>Batch Supply Chain & Point-of-Sale Verification Trail</span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-[11px]" id="timeline-container"></div>
+                        </div>
+
+                        <!-- Action Bar -->
+                        <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                            <div class="text-[11px] text-slate-500 flex items-center gap-1">
+                                <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-slate-400"></i>
+                                <span>Verified against Central Drugs Standard & Food Safety Registers</span>
+                            </div>
+                            <button type="button" onclick="openGrievanceModal()" id="btn-report-incident" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                                <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
+                                <span>Report Item to Enforcement Flying Squad</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 2: HEALTH SECTOR (MEDICINES & PHARMACEUTICALS DASHBOARD)         -->
+    <!-- ==================================================================== -->
+    <div id="hub-health" class="space-y-6 hidden">
+        <!-- Health KPIs -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="text-xs font-semibold text-slate-500">Monitored Drug Formulations</div>
+                <div class="text-2xl font-extrabold text-slate-900 mt-1" id="kpi-health-total">7</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Under Drugs & Cosmetics Act</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-emerald-200 bg-emerald-50/20 shadow-sm">
+                <div class="text-xs font-semibold text-emerald-700">Passed Pharmacopoeia Standards</div>
+                <div class="text-2xl font-extrabold text-emerald-700 mt-1" id="kpi-health-safe">4</div>
+                <div class="text-[10px] text-emerald-600 mt-0.5">HPLC assay & sterility verified</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-rose-200 bg-rose-50/20 shadow-sm">
+                <div class="text-xs font-semibold text-rose-700">Active Drug Recalls / NSQ</div>
+                <div class="text-2xl font-extrabold text-rose-700 mt-1" id="kpi-health-recalls">3</div>
+                <div class="text-[10px] text-rose-600 mt-0.5">Spurious, Toxic DEG, Cold-chain</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-sm">
+                <div class="text-xs font-semibold text-amber-700">Hospital Batches Near Expiry</div>
+                <div class="text-2xl font-extrabold text-amber-700 mt-1" id="kpi-health-expiring">1</div>
+                <div class="text-[10px] text-amber-600 mt-0.5">ICU reallocation alert</div>
+            </div>
+        </div>
+
+        <!-- CDSCO & Drug Control Active Alerts Table -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="shield-alert" class="w-4 h-4 text-rose-600"></i>
+                        <span>CDSCO & State Drug Control Board NSQ (Not of Standard Quality) Alerts</span>
+                    </h3>
+                    <p class="text-xs text-slate-500">Official statutory notices issued under Section 26 & 27 of Drugs & Cosmetics Act, 1940</p>
+                </div>
+                <button type="button" onclick="loadHealthSectorData()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh CDSCO Grid
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="cdsco-alerts-container">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- Monitored Medicines & Active Formulations Registry -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="pill" class="w-4 h-4 text-indigo-600"></i>
+                    <span>Registered Drug Formulations & Batch Safety Audit</span>
+                </h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                            <th class="py-2.5 px-3">Brand & Formulation</th>
+                            <th class="py-2.5 px-3">Sub-Category</th>
+                            <th class="py-2.5 px-3">Drug Mfg Lic</th>
+                            <th class="py-2.5 px-3">Monitored Batches</th>
+                            <th class="py-2.5 px-3">Batch Status & Safety Audit</th>
+                            <th class="py-2.5 px-3 text-right">Quick Verify</th>
+                        </tr>
+                    </thead>
+                    <tbody id="health-products-table" class="divide-y divide-slate-100 text-slate-700">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 3: BABY PRODUCTS & INFANT NUTRITION HUB                          -->
+    <!-- ==================================================================== -->
+    <div id="hub-baby" class="space-y-6 hidden">
+        <!-- Baby KPIs -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="text-xs font-semibold text-slate-500">Monitored Infant Formulations</div>
+                <div class="text-2xl font-extrabold text-slate-900 mt-1" id="kpi-baby-total">7</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Infant formula, cereals & drops</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-emerald-200 bg-emerald-50/20 shadow-sm">
+                <div class="text-xs font-semibold text-emerald-700">Infant Nutrition Compliant</div>
+                <div class="text-2xl font-extrabold text-emerald-700 mt-1" id="kpi-baby-safe">4</div>
+                <div class="text-[10px] text-emerald-600 mt-0.5">Zero Cronobacter / Sugar compliant</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-rose-200 bg-rose-50/20 shadow-sm">
+                <div class="text-xs font-semibold text-rose-700">Active Paediatric Recalls</div>
+                <div class="text-2xl font-extrabold text-rose-700 mt-1" id="kpi-baby-recalls">2</div>
+                <div class="text-[10px] text-rose-600 mt-0.5">Excess added sugar & fungal spore</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-sm">
+                <div class="text-xs font-semibold text-amber-700">Sensitive Batches Expiring</div>
+                <div class="text-2xl font-extrabold text-amber-700 mt-1" id="kpi-baby-expiring">1</div>
+                <div class="text-[10px] text-amber-600 mt-0.5">Baby water wipes (&lt;72h)</div>
+            </div>
+        </div>
+
+        <!-- FSSAI Infant Nutrition Standards & Directives -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="baby" class="w-4 h-4 text-blue-600"></i>
+                        <span>FSSAI Infant Nutrition Standards & Paediatric Directives</span>
+                    </h3>
+                    <p class="text-xs text-slate-500">Specialized laboratory safety parameters for products consumed by infants (0 to 24 months)</p>
+                </div>
+                <button type="button" onclick="loadBabySectorData()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Directives
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="baby-alerts-container">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- Monitored Baby Products Table -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i>
+                    <span>Registered Infant Formulations & Batch Safety Registry</span>
+                </h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                            <th class="py-2.5 px-3">Brand & Product</th>
+                            <th class="py-2.5 px-3">Sub-Category</th>
+                            <th class="py-2.5 px-3">FSSAI / Ayush Lic</th>
+                            <th class="py-2.5 px-3">Batches</th>
+                            <th class="py-2.5 px-3">Safety Status & Lab Findings</th>
+                            <th class="py-2.5 px-3 text-right">Quick Verify</th>
+                        </tr>
+                    </thead>
+                    <tbody id="baby-products-table" class="divide-y divide-slate-100 text-slate-700">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 4: FULL-FLEDGED CONSUMER GRIEVANCE & LIVE DOCKET TRACKER DESK     -->
+    <!-- ==================================================================== -->
+    <div id="hub-grievance" class="space-y-6 hidden">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left Column: File New Complaint -->
+            <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+                <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
+                    <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center">
+                        <i data-lucide="alert-octagon" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900" id="txt-file-g-title">File an Official Product Safety Grievance</h3>
+                        <p class="text-xs text-slate-500">Report counterfeit medicines, contaminated baby foods, or spoiled goods</p>
+                    </div>
+                </div>
+
+                <form onsubmit="handlePortalGrievanceSubmit(event)" class="space-y-3 text-xs">
+                    <div>
+                        <label class="font-semibold text-slate-700">Product Sector</label>
+                        <select id="pg-g-sector" onchange="updateCategoryOptions()" class="w-full mt-1 p-2.5 bg-slate-50 rounded-xl border border-slate-300 font-semibold focus:outline-none focus:border-indigo-500">
+                            <option value="HEALTH_PHARMA">🏥 Health Sector (Medicines, Drugs & Pharma)</option>
+                            <option value="BABY_PRODUCTS">🍼 Baby Products & Infant Nutrition</option>
+                            <option value="FOOD_CONSUMABLES">🛒 Food & Dairy Consumables</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-semibold text-slate-700">Product Name</label>
+                            <input type="text" id="pg-g-prod" required placeholder="e.g. Coldrif Syrup or Cerelac" class="w-full mt-1 p-2 bg-white rounded-xl border border-slate-300 focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="font-semibold text-slate-700">Batch Number</label>
+                            <input type="text" id="pg-g-batch" required placeholder="e.g. SR-13, CER-892" class="w-full mt-1 p-2 bg-white rounded-xl border border-slate-300 font-mono font-bold uppercase focus:outline-none focus:border-indigo-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-semibold text-slate-700">Store / Chemist Name</label>
+                            <input type="text" id="pg-g-shop" required placeholder="e.g. Apollo Pharmacy, Laxmi Store" class="w-full mt-1 p-2 bg-white rounded-xl border border-slate-300 focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="font-semibold text-slate-700">Location / City</label>
+                            <input type="text" id="pg-g-loc" required placeholder="e.g. Andheri East, Mumbai" class="w-full mt-1 p-2 bg-white rounded-xl border border-slate-300 focus:outline-none focus:border-indigo-500">
+                        </div>
+                    </div>
+
+                    <!-- Medical Adverse Event Toggle -->
+                    <div class="p-3 bg-rose-50/60 rounded-xl border border-rose-200 flex items-start gap-3">
+                        <input type="checkbox" id="pg-g-adverse" class="mt-1 w-4 h-4 text-rose-600 rounded">
+                        <div class="space-y-1">
+                            <label for="pg-g-adverse" class="font-bold text-rose-900 cursor-pointer">Adverse Health Event / Patient Illness Occurred</label>
+                            <p class="text-[10px] text-rose-700">Check if someone consumed this product and developed fever, vomiting, allergic reaction, or illness.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-semibold text-slate-700">Violation Category</label>
+                            <select id="pg-g-issue" class="w-full mt-1 p-2 bg-white rounded-xl border border-slate-300 focus:outline-none focus:border-indigo-500">
+                                <option value="Recalled Hazardous Batch Sold">Recalled Hazardous Batch Sold</option>
+                                <option value="Spurious / Fake Medicine">Spurious / Fake Medicine (No API)</option>
+                                <option value="Fungal / Microbial Spoilage">Fungal / Microbial Spoilage</option>
+                                <option value="High Added Sugar in Infant Food">High Added Sugar in Infant Food</option>
+                                <option value="Cold-Chain Temperature Breach">Cold-Chain Temperature Breach</option>
+                                <option value="Expired Product on Shelf">Expired Product on Shelf</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-slate-700">Patient / Consumer Age Group</label>
+                            <select id="pg-g-age" class="w-full mt-1 p-2 bg-white rounded-xl border border-slate-300 focus:outline-none focus:border-indigo-500">
+                                <option value="Infant (0-1 yr)">Infant (0-1 yr)</option>
+                                <option value="Child (1-12 yrs)">Child (1-12 yrs)</option>
+                                <option value="Adult">Adult</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="font-semibold text-slate-700">Description of Incident & Symptoms</label>
+                        <textarea id="pg-g-desc" rows="2" required placeholder="Describe package appearance, odor, store response or symptoms experienced..." class="w-full mt-1 p-2 bg-white rounded-xl border border-slate-300 focus:outline-none focus:border-indigo-500"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="font-semibold text-slate-700">Consumer Mobile Number (For SMS Updates)</label>
+                        <input type="tel" id="pg-g-phone" value="+91 98765 43210" required class="w-full mt-1 p-2 bg-white rounded-xl border border-slate-300 focus:outline-none focus:border-indigo-500">
+                    </div>
+
+                    <button type="submit" class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                        <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                        <span>Submit Statutory Grievance & Dispatch Squad</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Column: Live Docket Tracker & Pipeline Visualizer -->
+            <div class="lg:col-span-6 space-y-4">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+                    <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
+                        <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                            <i data-lucide="search" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900">Live Grievance Docket Tracker</h3>
+                            <p class="text-xs text-slate-500">Track 4-stage regulatory enforcement and seizure progress</p>
+                        </div>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="flex gap-2">
+                        <input type="text" id="input-track-docket" placeholder="Enter Docket No (e.g. PG-GRIEV-2026-1082)" class="flex-1 p-2.5 bg-slate-50 rounded-xl border border-slate-300 font-mono text-xs uppercase focus:outline-none focus:border-indigo-500 font-bold">
+                        <button type="button" onclick="performDocketTracking()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition">
+                            Track
+                        </button>
+                    </div>
+
+                    <!-- Quick Pre-seeded Docket Pills -->
+                    <div class="flex items-center gap-1.5 flex-wrap text-[11px] text-slate-500">
+                        <span>Quick Examples:</span>
+                        <button type="button" onclick="trackPreseededDocket('PG-GRIEV-2026-1082')" class="px-2 py-0.5 bg-rose-50 border border-rose-200 text-rose-800 rounded font-mono font-bold hover:bg-rose-100">#1082 (Coldrif Seized)</button>
+                        <button type="button" onclick="trackPreseededDocket('PG-GRIEV-2026-2190')" class="px-2 py-0.5 bg-blue-50 border border-blue-200 text-blue-800 rounded font-mono font-bold hover:bg-blue-100">#2190 (Gripe Fungal)</button>
+                        <button type="button" onclick="trackPreseededDocket('PG-GRIEV-2026-3341')" class="px-2 py-0.5 bg-amber-50 border border-amber-200 text-amber-800 rounded font-mono font-bold hover:bg-amber-100">#3341 (Cerelac Sugar)</button>
+                        <button type="button" onclick="trackPreseededDocket('PG-GRIEV-2026-4812')" class="px-2 py-0.5 bg-slate-100 border border-slate-200 text-slate-800 rounded font-mono font-bold hover:bg-slate-200">#4812 (Fake Azicip)</button>
+                    </div>
+
+                    <!-- Live Tracking Output Display -->
+                    <div id="docket-tracking-output" class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-4">
+                        <div class="text-center py-6 text-slate-400 text-xs">
+                            Enter a docket number or select an example above to view the enforcement pipeline.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Public Grievances Transparency Feed -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="list-checks" class="w-4 h-4 text-indigo-600"></i>
+                        <span>Public Regulatory Grievance Feed & Enforcement Actions</span>
+                    </h3>
+                    <p class="text-xs text-slate-500">Live ledger of citizen reports and Flying Squad inspections across India</p>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                            <th class="py-2.5 px-3">Docket ID</th>
+                            <th class="py-2.5 px-3">Sector</th>
+                            <th class="py-2.5 px-3">Product & Batch</th>
+                            <th class="py-2.5 px-3">Violation Category</th>
+                            <th class="py-2.5 px-3">Adverse Event?</th>
+                            <th class="py-2.5 px-3">Investigating Officer</th>
+                            <th class="py-2.5 px-3">Enforcement Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="public-grievances-table" class="divide-y divide-slate-100 text-slate-700">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 5: RETAILER & PHARMACY INVENTORY DESK                           -->
+    <!-- ==================================================================== -->
+    <div id="hub-retailer" class="space-y-6 hidden">
+        <!-- Counters -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="text-xs font-semibold text-slate-500">Monitored Shelf SKUs</div>
+                <div class="text-2xl font-extrabold text-slate-900 mt-1" id="stat-ret-total">15</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Across stores & pharmacies</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-emerald-200 bg-emerald-50/20 shadow-sm">
+                <div class="text-xs font-semibold text-emerald-700">Safe & Compliant</div>
+                <div class="text-2xl font-extrabold text-emerald-700 mt-1" id="stat-ret-safe">8</div>
+                <div class="text-[10px] text-emerald-600 mt-0.5">Clear for retail dispensing</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-sm">
+                <div class="text-xs font-semibold text-amber-700">Expiring Soon</div>
+                <div class="text-2xl font-extrabold text-amber-700 mt-1" id="stat-ret-expiring">3</div>
+                <div class="text-[10px] text-amber-600 mt-0.5">Discount or return to C&F</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-rose-200 bg-rose-50/20 shadow-sm">
+                <div class="text-xs font-semibold text-rose-700">Active Recall Alerts</div>
+                <div class="text-2xl font-extrabold text-rose-700 mt-1" id="stat-ret-recalled">3</div>
+                <div class="text-[10px] text-rose-600 mt-0.5">Quarantine immediately</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-300 shadow-sm col-span-2 sm:col-span-1">
+                <div class="text-xs font-semibold text-slate-600">Expired Stock</div>
+                <div class="text-2xl font-extrabold text-slate-800 mt-1" id="stat-ret-expired">1</div>
+                <div class="text-[10px] text-slate-500 mt-0.5">Prohibited from sale</div>
+            </div>
+        </div>
+
+        <!-- Inventory Table -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-4 p-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                <div>
+                    <h2 class="text-base font-bold text-slate-900">Pharmacy & Retail Shelf Compliance Desk</h2>
+                    <p class="text-xs text-slate-500">Real-time batch health tracking for chemists and store managers</p>
+                </div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button type="button" onclick="filterInventoryBySector('ALL')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-white" id="f-sec-all">All Sectors</button>
+                    <button type="button" onclick="filterInventoryBySector('HEALTH_PHARMA')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-rose-50 text-rose-800 border border-rose-200" id="f-sec-health">Medicines</button>
+                    <button type="button" onclick="filterInventoryBySector('BABY_PRODUCTS')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-blue-50 text-blue-800 border border-blue-200" id="f-sec-baby">Baby Care</button>
+                    <button type="button" onclick="filterInventoryBySector('FOOD_CONSUMABLES')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-emerald-50 text-emerald-800 border border-emerald-200" id="f-sec-food">Food</button>
+                    <button type="button" onclick="exportInventoryReport()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                            <th class="py-2.5 px-3 font-semibold">Store / Chemist</th>
+                            <th class="py-2.5 px-3 font-semibold">Product & Brand</th>
+                            <th class="py-2.5 px-3 font-semibold">Batch No</th>
+                            <th class="py-2.5 px-3 font-semibold">Expiry Date</th>
+                            <th class="py-2.5 px-3 font-semibold">Storage Condition</th>
+                            <th class="py-2.5 px-3 font-semibold">Status</th>
+                            <th class="py-2.5 px-3 font-semibold text-right">Compliance Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-table-body" class="divide-y divide-slate-100 text-slate-700">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Grievance Modal (from Scanner) -->
+    <div id="grievance-modal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in duration-200">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center">
+                        <i data-lucide="alert-octagon" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900">Direct Statutory Grievance</h3>
+                        <p class="text-[11px] text-slate-500">Fast reporting to Flying Squad & State Regulatory Commission</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeGrievanceModal()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">✕</button>
+            </div>
+
+            <form id="modal-grievance-form" onsubmit="submitModalGrievance(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="font-semibold text-slate-700">Product Name</label>
+                        <input type="text" id="m-g-prod" readonly class="w-full mt-1 p-2 bg-slate-100 rounded-lg border border-slate-200 font-medium text-slate-800">
+                    </div>
+                    <div>
+                        <label class="font-semibold text-slate-700">Batch Number</label>
+                        <input type="text" id="m-g-batch" readonly class="w-full mt-1 p-2 bg-slate-100 rounded-lg border border-slate-200 font-mono font-bold text-amber-700">
+                    </div>
+                </div>
+                <div>
+                    <label class="font-semibold text-slate-700">Store / Chemist Name</label>
+                    <input type="text" id="m-g-shop" value="City Apollo Pharmacy, Andheri East" required class="w-full mt-1 p-2 bg-white rounded-lg border border-slate-300">
+                </div>
+                <div>
+                    <label class="font-semibold text-slate-700">Location</label>
+                    <input type="text" id="m-g-loc" value="Andheri East, Mumbai (GPS: 19.1136, 72.8697)" required class="w-full mt-1 p-2 bg-white rounded-lg border border-slate-300">
+                </div>
+                <div>
+                    <label class="font-semibold text-slate-700">Issue Description</label>
+                    <textarea id="m-g-desc" rows="2" required class="w-full mt-1 p-2 bg-white rounded-lg border border-slate-300">Recalled batch SR-13 found displayed on retail dispensary counter.</textarea>
+                </div>
+                <div>
+                    <label class="font-semibold text-slate-700">Mobile Number</label>
+                    <input type="tel" id="m-g-phone" value="+91 98200 12345" required class="w-full mt-1 p-2 bg-white rounded-lg border border-slate-300">
+                </div>
+                <div class="pt-2 flex items-center justify-end gap-2">
+                    <button type="button" onclick="closeGrievanceModal()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold transition flex items-center gap-1">
+                        <i data-lucide="send" class="w-3.5 h-3.5"></i> Submit Docket
+                    </button>
+                </div>
+            </form>
+
+            <div id="modal-grievance-success" class="hidden space-y-3 text-center p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900">
+                <div class="w-10 h-10 mx-auto rounded-full bg-emerald-200 flex items-center justify-center text-emerald-800">
+                    <i data-lucide="check" class="w-6 h-6"></i>
+                </div>
+                <div class="font-bold text-sm">Grievance Docket Successfully Issued!</div>
+                <div class="text-xs">Docket Number: <strong id="m-success-docket-no" class="font-mono text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded"></strong></div>
+                <p class="text-[11px] text-emerald-700">Dispatched to District Drug Control / Food Safety Flying Squad.</p>
+                <button type="button" onclick="closeGrievanceModal()" class="px-4 py-1.5 bg-emerald-700 text-white rounded-lg text-xs font-bold">Done</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ==================================================================== -->
+<!-- PRODUCTGUARD AI MULTI-SECTOR CLIENT JAVASCRIPT                       -->
+<!-- ==================================================================== -->
+<script>
+    let currentHub = 'scanner';
+    let currentLang = 'en';
+    let currentBatchData = null;
+    let inventoryData = [];
+    let selectedSectorFilter = 'ALL';
+
+    const PG_I18N = {
+        en: {
+            banner_badge: "CDSCO & FSSAI Multi-Sector Intelligence Layer",
+            mission_desc: "Bridging the information gap between official laboratory recall gazettes and consumers. Instant batch-level safety intelligence for Pediatric Medicines, Infant Nutrition, and Packaged Consumables before purchase or consumption.",
+            tab_scanner: "Universal Scanner & Tester",
+            tab_health: "Health Sector (Medicines & Pharma)",
+            tab_baby: "Baby Products (Infant Consumables)",
+            tab_grievance: "Consumer Grievance Desk",
+            tab_retailer: "Retailer Shelf Audit",
+            presets_title: "Evaluator & Judge Rapid Testing Presets",
+            presets_sub: "Select any scenario to test batch-level intelligence across sectors:",
+            pre_health_hdr: "Health Sector (Medicines)",
+            pre_baby_hdr: "Baby Products & Nutrition",
+            pre_food_hdr: "Food & Dairy Consumables",
+            scanner_title: "Smart Multi-Modal Camera Scanner",
+            align_packaging: "Align Barcode, Drug Blister or Baby Formula Label",
+            manual_fallback_label: "Manual Batch / Barcode Search",
+            btn_verify: "Verify",
+            ready_heading: "Ready to Verify Batch Safety",
+            ready_desc: "Select one of the One-Tap Presets above or enter a batch number to view instant laboratory safety status, dynamic countdown, clinical warnings, and regulatory seizure notices.",
+            file_g_title: "File an Official Product Safety Grievance"
+        },
+        hi: {
+            banner_badge: "सीडीएससीओ और एफएसएसएआई बहु-क्षेत्रीय सुरक्षा इंटेलिजेंस लेयर",
+            mission_desc: "सरकारी प्रयोगशाला रिकॉल नोटिस और आम जनता के बीच की सूचना खाई को पाटना। दवाओं, शिशु आहार और खाद्य उत्पादों की खरीद से पहले रीयल-टाइम बैच सुरक्षा जांच।",
+            tab_scanner: "यूनिवर्सल स्कैनर व परीक्षक",
+            tab_health: "स्वास्थ्य क्षेत्र (दवाएं और फार्मा)",
+            tab_baby: "शिशु उत्पाद (शिशु उपभोग सामग्री)",
+            tab_grievance: "उपभोक्ता शिकायत केंद्र",
+            tab_retailer: "दुकानदार/केमिस्ट शेल्फ ऑडिट",
+            presets_title: "परीक्षक व जज त्वरित टेस्ट प्रीसेट",
+            presets_sub: "तीनों क्षेत्रों में बैच-स्तरीय सुरक्षा जांच के लिए कोई भी परिदृश्य चुनें:",
+            pre_health_hdr: "स्वास्थ्य क्षेत्र (दवाएं)",
+            pre_baby_hdr: "शिशु उत्पाद एवं पोषण",
+            pre_food_hdr: "खाद्य एवं डेयरी सामग्री",
+            scanner_title: "स्मार्ट मल्टी-मॉडल कैमरा स्कैनर",
+            align_packaging: "दवा का पत्ता, शिशु आहार या बारकोड फ्रेम में रखें",
+            manual_fallback_label: "मैन्युअल बैच या बारकोड खोजें",
+            btn_verify: "सत्यापित करें",
+            ready_heading: "बैच सुरक्षा जांच के लिए तैयार",
+            ready_desc: "ऊपर दिए गए टेस्ट बटन दबाएं या बैच नंबर दर्ज करें ताकि तुरंत प्रयोगशाला रिपोर्ट, चेतावनी और जब्ती आदेश देखे जा सकें।",
+            file_g_title: "आधिकारिक उत्पाद सुरक्षा शिकायत दर्ज करें"
+        }
+    };
+
+    function setPGScriptLang(lang) {
+        currentLang = lang;
+        const dict = PG_I18N[lang];
+        if (!dict) return;
+
+        const btnEn = document.getElementById('btn-lang-en');
+        const btnHi = document.getElementById('btn-lang-hi');
+        if (lang === 'en') {
+            btnEn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 bg-amber-500 text-slate-950 shadow";
+            btnHi.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 text-slate-300 hover:text-white";
+        } else {
+            btnHi.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 bg-amber-500 text-slate-950 shadow";
+            btnEn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 text-slate-300 hover:text-white";
+        }
+
+        document.getElementById('txt-banner-badge').textContent = dict.banner_badge;
+        document.getElementById('txt-mission-desc').textContent = dict.mission_desc;
+        document.getElementById('txt-tab-scanner').textContent = dict.tab_scanner;
+        document.getElementById('txt-tab-health').textContent = dict.tab_health;
+        document.getElementById('txt-tab-baby').textContent = dict.tab_baby;
+        document.getElementById('txt-tab-grievance').textContent = dict.tab_grievance;
+        document.getElementById('txt-tab-retailer').textContent = dict.tab_retailer;
+        document.getElementById('txt-presets-title').textContent = dict.presets_title;
+        document.getElementById('txt-presets-sub').textContent = dict.presets_sub;
+        document.getElementById('txt-pre-health-hdr').textContent = dict.pre_health_hdr;
+        document.getElementById('txt-pre-baby-hdr').textContent = dict.pre_baby_hdr;
+        document.getElementById('txt-pre-food-hdr').textContent = dict.pre_food_hdr;
+        document.getElementById('txt-scanner-title').textContent = dict.scanner_title;
+        document.getElementById('txt-align-packaging').textContent = dict.align_packaging;
+        document.getElementById('txt-manual-fallback-label').textContent = dict.manual_fallback_label;
+        document.getElementById('txt-btn-verify').textContent = dict.btn_verify;
+        document.getElementById('txt-ready-heading').textContent = dict.ready_heading;
+        document.getElementById('txt-ready-desc').textContent = dict.ready_desc;
+        document.getElementById('txt-file-g-title').textContent = dict.file_g_title;
+    }
+
+    function switchPGHub(hub) {
+        currentHub = hub;
+        const hubs = ['scanner', 'health', 'baby', 'grievance', 'retailer'];
+        hubs.forEach(h => {
+            const el = document.getElementById(`hub-${h}`);
+            const tab = document.getElementById(`tab-${h}`);
+            if (h === hub) {
+                el.classList.remove('hidden');
+                tab.className = "px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-indigo-600 text-white shadow";
+            } else {
+                el.classList.add('hidden');
+                tab.className = "px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-600 hover:bg-slate-100";
+            }
+        });
+
+        if (hub === 'health') loadHealthSectorData();
+        else if (hub === 'baby') loadBabySectorData();
+        else if (hub === 'grievance') loadGrievanceHubData();
+        else if (hub === 'retailer') loadRetailerInventory();
+
+        lucide.createIcons();
+    }
+
+    // Run Preset
+    async function runPreset(presetId) {
+        if (currentHub !== 'scanner') switchPGHub('scanner');
+        const laser = document.getElementById('laser-sweep');
+        laser.classList.remove('hidden');
+
+        try {
+            const res = await fetch('/api/productguard/simulate-ocr', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ preset_id: presetId })
+            });
+            const data = await res.json();
+            displayVerificationResult(data);
+        } catch (e) {
+            alert("Error verifying preset: " + e);
+        }
+    }
+
+    async function performManualSearch() {
+        const val = document.getElementById('input-batch-search').value.trim();
+        if (!val) {
+            alert(currentLang === 'hi' ? "कृपया बैच संख्या या बारकोड दर्ज करें" : "Please enter a batch number or barcode");
+            return;
+        }
+        try {
+            const res = await fetch(`/api/productguard/verify?batch_number=${encodeURIComponent(val)}`);
+            if (!res.ok) {
+                const err = await res.json();
+                alert(err.detail || "Product/Batch not found");
+                return;
+            }
+            const data = await res.json();
+            displayVerificationResult(data);
+        } catch (e) {
+            alert("Search failed: " + e);
+        }
+    }
+
+    function displayVerificationResult(data) {
+        currentBatchData = data;
+        const prod = data.product;
+        const batch = data.batch;
+        const intel = data.intelligence;
+
+        document.getElementById('card-placeholder').classList.add('hidden');
+        document.getElementById('card-result').classList.remove('hidden');
+
+        document.getElementById('camera-graphic').classList.add('hidden');
+        const detected = document.getElementById('camera-detected-preview');
+        detected.classList.remove('hidden');
+        const badge = document.getElementById('preview-image-badge');
+        badge.textContent = intel.verdict_badge;
+        badge.className = `inline-block px-3 py-1 rounded-full text-xs font-bold ${
+            intel.verdict_color === 'green' ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' :
+            intel.verdict_color === 'yellow' ? 'bg-amber-500/30 text-amber-300 border border-amber-500/40' :
+            'bg-rose-500/30 text-rose-300 border border-rose-500/40'
+        }`;
+        document.getElementById('preview-image-name').textContent = prod.product_name;
+        document.getElementById('preview-image-batch').textContent = `BATCH: ${batch.batch_number}`;
+        document.getElementById('preview-image-sector').textContent = `SECTOR: ${prod.sector.replace('_', ' ')}`;
+
+        document.getElementById('ocr-parsed-box').classList.remove('hidden');
+        document.getElementById('ocr-brand').textContent = prod.brand_name;
+        document.getElementById('ocr-batch').textContent = batch.batch_number;
+        document.getElementById('ocr-sector').textContent = prod.sub_category || prod.category;
+        document.getElementById('ocr-storage').textContent = batch.storage_temperature;
+        document.getElementById('ocr-fssai').textContent = prod.fssai_license;
+        document.getElementById('ocr-mrp').textContent = `₹${prod.mrp.toFixed(2)}`;
+
+        const banner = document.getElementById('verdict-banner-container');
+        const pill = document.getElementById('verdict-pill');
+        const iconCont = document.getElementById('verdict-icon-container');
+
+        if (intel.verdict_color === 'green') {
+            banner.className = "rounded-2xl p-5 border text-white shadow-md relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-700 border-emerald-500";
+            pill.className = "text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-block bg-white/20 text-emerald-100 border border-white/30";
+            iconCont.innerHTML = `<i data-lucide="check-circle-2" class="w-7 h-7 text-white"></i>`;
+        } else if (intel.verdict_color === 'yellow') {
+            banner.className = "rounded-2xl p-5 border text-white shadow-md relative overflow-hidden bg-gradient-to-r from-amber-600 to-yellow-600 border-amber-400";
+            pill.className = "text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-block bg-white/20 text-amber-100 border border-white/30";
+            iconCont.innerHTML = `<i data-lucide="alert-circle" class="w-7 h-7 text-white"></i>`;
+        } else {
+            banner.className = "rounded-2xl p-5 border text-white shadow-md relative overflow-hidden bg-gradient-to-r from-rose-700 via-red-600 to-rose-800 border-rose-500 animate-pulse";
+            pill.className = "text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-block bg-white/30 text-rose-100 border border-white/40";
+            iconCont.innerHTML = `<i data-lucide="alert-octagon" class="w-7 h-7 text-white"></i>`;
+        }
+
+        pill.textContent = intel.verdict_badge;
+        document.getElementById('verdict-title').textContent = intel.verdict_title;
+        document.getElementById('verdict-countdown').textContent = intel.countdown_text;
+        document.getElementById('verdict-advice').textContent = intel.actionable_advice;
+
+        document.getElementById('card-category').textContent = prod.sub_category || prod.category;
+        document.getElementById('card-sector-badge').textContent = prod.sector.replace('_', ' ');
+        document.getElementById('card-product-name').textContent = prod.product_name;
+        document.getElementById('card-brand').textContent = prod.brand_name;
+        document.getElementById('card-fssai').textContent = prod.fssai_license;
+        document.getElementById('card-mrp').textContent = `₹${prod.mrp.toFixed(2)}`;
+        document.getElementById('card-net-qty').textContent = prod.net_quantity;
+
+        const uspBox = document.getElementById('usp-distinction-box');
+        if (batch.is_recalled) uspBox.className = "p-3 rounded-xl border text-xs space-y-1 bg-rose-50 border-rose-200 text-rose-900";
+        else uspBox.className = "p-3 rounded-xl border text-xs space-y-1 bg-indigo-50 border-indigo-200 text-indigo-950";
+        document.getElementById('usp-distinction-text').textContent = intel.batch_vs_product_distinction;
+
+        document.getElementById('card-batch-number').textContent = batch.batch_number;
+        document.getElementById('card-mfg-date').textContent = batch.mfg_date;
+        document.getElementById('card-exp-date').textContent = batch.expiry_date;
+        document.getElementById('card-storage-temp').textContent = batch.storage_temperature;
+        document.getElementById('card-audit-time').textContent = `Verified: ${intel.audit_timestamp}`;
+        document.getElementById('card-lab-summary').textContent = batch.lab_test_summary || "Tested compliant.";
+        document.getElementById('card-reg-authority').textContent = `Source: ${intel.verification_source}`;
+
+        const timeCont = document.getElementById('timeline-container');
+        timeCont.innerHTML = '';
+        intel.timeline.forEach((item, idx) => {
+            const isFailed = item.status === 'FAILED';
+            const isFlagged = item.status === 'FLAGGED';
+            timeCont.innerHTML += `
+                <div class="p-2.5 rounded-xl border ${isFailed || isFlagged ? 'bg-rose-50 border-rose-200 text-rose-900' : 'bg-slate-50 border-slate-100'}">
+                    <div class="font-bold flex items-center justify-between">
+                        <span>Step ${idx+1}</span>
+                        <span class="text-[9px] px-1.5 py-0.2 rounded font-semibold ${isFailed ? 'bg-rose-600 text-white' : 'bg-emerald-600 text-white'}">${item.status}</span>
+                    </div>
+                    <div class="font-semibold text-slate-800 mt-1">${item.stage}</div>
+                    <div class="text-[10px] text-slate-500">${item.date}</div>
+                    <div class="text-[9px] text-slate-600 mt-1">${item.details}</div>
+                </div>
+            `;
+        });
+        lucide.createIcons();
+    }
+
+    // Health Sector Loader
+    async function loadHealthSectorData() {
+        try {
+            const [alertsRes, dataRes] = await Promise.all([
+                fetch('/api/productguard/cdsco-alerts'),
+                fetch('/api/productguard/sector-data?sector=HEALTH_PHARMA')
+            ]);
+            const alerts = await alertsRes.json();
+            const data = await dataRes.json();
+
+            document.getElementById('kpi-health-total').textContent = data.total_products;
+            document.getElementById('kpi-health-safe').textContent = data.safe_batches;
+            document.getElementById('kpi-health-recalls').textContent = data.recalled_batches;
+            document.getElementById('kpi-health-expiring').textContent = data.expiring_batches;
+
+            const aCont = document.getElementById('cdsco-alerts-container');
+            aCont.innerHTML = '';
+            alerts.forEach(a => {
+                aCont.innerHTML += `
+                    <div class="p-3.5 bg-rose-50 rounded-xl border border-rose-200 space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-[10px] font-bold text-rose-800 bg-rose-200/70 px-1.5 py-0.5 rounded">${a.alert_id}</span>
+                            <span class="text-[10px] text-rose-600 font-semibold">${a.date}</span>
+                        </div>
+                        <div class="font-bold text-slate-900 text-xs">${a.product}</div>
+                        <div class="text-[10px] text-slate-600">Batch: <strong class="font-mono text-rose-700">${a.batch}</strong> • Hazard: <span class="text-rose-700 font-bold">${a.hazard}</span></div>
+                        <p class="text-[11px] text-slate-700 leading-snug">${a.violation}</p>
+                        <div class="text-[10px] text-rose-800 font-semibold pt-1 border-t border-rose-200">${a.enforcement}</div>
+                    </div>
+                `;
+            });
+
+            const tbody = document.getElementById('health-products-table');
+            tbody.innerHTML = '';
+            data.products.forEach(p => {
+                const b = p.batches[0] || {};
+                let bBadge = b.is_recalled ? 'bg-rose-100 text-rose-800 border-rose-300 animate-pulse' : (b.status === 'EXPIRING_SOON' ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300');
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="py-2.5 px-3">
+                            <div class="font-bold text-slate-800">${p.product_name}</div>
+                            <div class="text-[10px] text-slate-500">${p.brand_name}</div>
+                        </td>
+                        <td class="py-2.5 px-3 text-slate-600 font-medium">${p.sub_category || p.category}</td>
+                        <td class="py-2.5 px-3 font-mono text-[10px] text-slate-500">${p.fssai_license}</td>
+                        <td class="py-2.5 px-3 font-mono font-bold text-indigo-700">${b.batch_number || 'N/A'}</td>
+                        <td class="py-2.5 px-3">
+                            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-extrabold border ${bBadge}">
+                                ${b.status || 'SAFE'}
+                            </span>
+                            ${b.recall_reason ? `<div class="text-[9px] text-rose-600 mt-0.5 truncate max-w-xs">${b.recall_reason}</div>` : ''}
+                        </td>
+                        <td class="py-2.5 px-3 text-right">
+                            <button type="button" onclick="verifySpecificBatch('${b.batch_number}', '${p.barcode}')" class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg font-bold text-[11px] border border-indigo-200">
+                                Verify Batch
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            lucide.createIcons();
+        } catch (e) {
+            console.error("Error loading health sector data:", e);
+        }
+    }
+
+    // Baby Sector Loader
+    async function loadBabySectorData() {
+        try {
+            const [alertsRes, dataRes] = await Promise.all([
+                fetch('/api/productguard/infant-safety-alerts'),
+                fetch('/api/productguard/sector-data?sector=BABY_PRODUCTS')
+            ]);
+            const alerts = await alertsRes.json();
+            const data = await dataRes.json();
+
+            document.getElementById('kpi-baby-total').textContent = data.total_products;
+            document.getElementById('kpi-baby-safe').textContent = data.safe_batches;
+            document.getElementById('kpi-baby-recalls').textContent = data.recalled_batches;
+            document.getElementById('kpi-baby-expiring').textContent = data.expiring_batches;
+
+            const aCont = document.getElementById('baby-alerts-container');
+            aCont.innerHTML = '';
+            alerts.forEach(a => {
+                aCont.innerHTML += `
+                    <div class="p-3.5 bg-blue-50 rounded-xl border border-blue-200 space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-[10px] font-bold text-blue-800 bg-blue-200/70 px-1.5 py-0.5 rounded">${a.alert_id}</span>
+                            <span class="text-[10px] text-blue-600 font-semibold">${a.date}</span>
+                        </div>
+                        <div class="font-bold text-slate-900 text-xs">${a.product}</div>
+                        <div class="text-[10px] text-slate-600">Batch: <strong class="font-mono text-blue-700">${a.batch}</strong> • Hazard: <span class="text-blue-800 font-bold">${a.hazard}</span></div>
+                        <p class="text-[11px] text-slate-700 leading-snug">${a.violation}</p>
+                        <div class="text-[10px] text-blue-900 font-semibold pt-1 border-t border-blue-200">${a.enforcement}</div>
+                    </div>
+                `;
+            });
+
+            const tbody = document.getElementById('baby-products-table');
+            tbody.innerHTML = '';
+            data.products.forEach(p => {
+                const b = p.batches[0] || {};
+                let bBadge = b.is_recalled ? 'bg-rose-100 text-rose-800 border-rose-300 animate-pulse' : (b.status === 'EXPIRING_SOON' ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300');
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="py-2.5 px-3">
+                            <div class="font-bold text-slate-800">${p.product_name}</div>
+                            <div class="text-[10px] text-slate-500">${p.brand_name}</div>
+                        </td>
+                        <td class="py-2.5 px-3 text-slate-600 font-medium">${p.sub_category || p.category}</td>
+                        <td class="py-2.5 px-3 font-mono text-[10px] text-slate-500">${p.fssai_license}</td>
+                        <td class="py-2.5 px-3 font-mono font-bold text-blue-700">${b.batch_number || 'N/A'}</td>
+                        <td class="py-2.5 px-3">
+                            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-extrabold border ${bBadge}">
+                                ${b.status || 'SAFE'}
+                            </span>
+                            ${b.recall_reason ? `<div class="text-[9px] text-rose-600 mt-0.5 truncate max-w-xs">${b.recall_reason}</div>` : ''}
+                        </td>
+                        <td class="py-2.5 px-3 text-right">
+                            <button type="button" onclick="verifySpecificBatch('${b.batch_number}', '${p.barcode}')" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg font-bold text-[11px] border border-blue-200">
+                                Verify Batch
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            lucide.createIcons();
+        } catch (e) {
+            console.error("Error loading baby sector data:", e);
+        }
+    }
+
+    function verifySpecificBatch(batchNo, barcode) {
+        switchPGHub('scanner');
+        document.getElementById('input-batch-search').value = batchNo;
+        performManualSearch();
+    }
+
+    // Grievance Portal Loader
+    async function loadGrievanceHubData() {
+        try {
+            const res = await fetch('/api/productguard/grievances');
+            const grievances = await res.json();
+            renderPublicGrievancesTable(grievances);
+        } catch (e) {
+            console.error("Error loading grievances:", e);
+        }
+    }
+
+    function renderPublicGrievancesTable(items) {
+        const tbody = document.getElementById('public-grievances-table');
+        tbody.innerHTML = '';
+        items.forEach(g => {
+            let statusBadge = g.status === 'RESOLVED' ? 'bg-emerald-100 text-emerald-800' : (g.status === 'SEIZURE_DISPATCHED' ? 'bg-rose-100 text-rose-800 animate-pulse' : 'bg-amber-100 text-amber-800');
+            tbody.innerHTML += `
+                <tr class="hover:bg-slate-50 transition cursor-pointer" onclick="trackPreseededDocket('${g.docket_number}')">
+                    <td class="py-2.5 px-3 font-mono font-bold text-indigo-700">${g.docket_number}</td>
+                    <td class="py-2.5 px-3 font-semibold text-[10px] text-slate-500">${(g.sector || 'FOOD').replace('_', ' ')}</td>
+                    <td class="py-2.5 px-3">
+                        <div class="font-bold text-slate-800">${g.product_name}</div>
+                        <div class="font-mono text-[10px] text-amber-700">Batch: ${g.batch_number}</div>
+                    </td>
+                    <td class="py-2.5 px-3 text-slate-700 font-medium">${g.issue_category}</td>
+                    <td class="py-2.5 px-3">
+                        ${g.adverse_health_event ? '<span class="px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 font-bold text-[9px]">YES - SICK</span>' : '<span class="text-slate-400">No</span>'}
+                    </td>
+                    <td class="py-2.5 px-3 text-slate-600 text-[11px]">${g.investigating_officer || 'Assigned Officer'}</td>
+                    <td class="py-2.5 px-3">
+                        <span class="px-2 py-0.5 rounded-full font-bold text-[10px] ${statusBadge}">
+                            Stage ${g.pipeline_stage || 1}: ${g.status}
+                        </span>
+                    </td>
+                </tr>
+            `;
+        });
+        lucide.createIcons();
+    }
+
+    async function trackPreseededDocket(docketNo) {
+        document.getElementById('input-track-docket').value = docketNo;
+        await performDocketTracking();
+    }
+
+    async function performDocketTracking() {
+        const docketNo = document.getElementById('input-track-docket').value.trim();
+        if (!docketNo) {
+            alert("Please enter a docket number.");
+            return;
+        }
+        try {
+            const res = await fetch(`/api/productguard/grievances/track/${encodeURIComponent(docketNo)}`);
+            if (!res.ok) {
+                alert("Docket not found in regulatory system.");
+                return;
+            }
+            const data = await res.json();
+            renderDocketPipeline(data);
+        } catch (e) {
+            alert("Error tracking docket: " + e);
+        }
+    }
+
+    function renderDocketPipeline(data) {
+        const d = data.docket;
+        const pipeline = data.pipeline;
+        const cont = document.getElementById('docket-tracking-output');
+
+        let stepsHtml = '';
+        pipeline.forEach(p => {
+            const isDone = p.status === 'COMPLETED';
+            const isInProg = p.status === 'IN_PROGRESS';
+            const iconBg = isDone ? 'bg-emerald-600 text-white' : (isInProg ? 'bg-amber-500 text-white animate-pulse' : 'bg-slate-200 text-slate-500');
+
+            stepsHtml += `
+                <div class="flex items-start gap-3 relative pb-4">
+                    <div class="w-7 h-7 rounded-full ${iconBg} flex items-center justify-center font-bold text-xs shrink-0 z-10">
+                        ${isDone ? '✓' : p.stage_num}
+                    </div>
+                    <div class="space-y-0.5 flex-1">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-900 text-xs">${p.title}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">${p.time}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-600 leading-snug">${p.desc}</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        cont.innerHTML = `
+            <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-2">
+                <div class="flex items-center justify-between border-b pb-2">
+                    <div>
+                        <div class="font-mono font-bold text-sm text-indigo-700">${d.docket_number}</div>
+                        <div class="text-[10px] text-slate-400">Filed: ${d.created_at}</div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full font-bold text-[10px] ${d.status === 'RESOLVED' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                        ${d.status}
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-700">
+                    <div>Product: <strong>${d.product_name}</strong></div>
+                    <div>Batch: <strong class="font-mono text-amber-700">${d.batch_number}</strong></div>
+                    <div>Store: <strong>${d.shop_name}</strong></div>
+                    <div>Location: <strong>${d.shop_location}</strong></div>
+                    <div class="col-span-2">Assigned Officer: <strong class="text-indigo-800">${d.investigating_officer || 'District Officer'}</strong></div>
+                </div>
+            </div>
+            <div class="pt-2">
+                <div class="text-xs font-bold text-slate-800 mb-3">Regulatory Enforcement Pipeline Progress:</div>
+                <div class="space-y-1 pl-2">
+                    ${stepsHtml}
+                </div>
+            </div>
+        `;
+        lucide.createIcons();
+    }
+
+    async function handlePortalGrievanceSubmit(e) {
+        e.preventDefault();
+        const payload = {
+            sector: document.getElementById('pg-g-sector').value,
+            product_name: document.getElementById('pg-g-prod').value,
+            batch_number: document.getElementById('pg-g-batch').value,
+            shop_name: document.getElementById('pg-g-shop').value,
+            shop_location: document.getElementById('pg-g-loc').value,
+            adverse_health_event: document.getElementById('pg-g-adverse').checked,
+            issue_category: document.getElementById('pg-g-issue').value,
+            patient_age_group: document.getElementById('pg-g-age').value,
+            description: document.getElementById('pg-g-desc').value,
+            consumer_phone: document.getElementById('pg-g-phone').value
+        };
+
+        try {
+            const res = await fetch('/api/productguard/grievance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            alert(`Grievance registered! Your official docket number is: ${data.docket_number}`);
+            document.getElementById('input-track-docket').value = data.docket_number;
+            await performDocketTracking();
+            await loadGrievanceHubData();
+        } catch (err) {
+            alert("Error filing grievance: " + err);
+        }
+    }
+
+    // Modal reporting from scanner
+    function openGrievanceModal() {
+        if (!currentBatchData) {
+            alert("Scan or verify a product first!");
+            return;
+        }
+        document.getElementById('m-g-prod').value = currentBatchData.product.product_name;
+        document.getElementById('m-g-batch').value = currentBatchData.batch.batch_number;
+        document.getElementById('modal-grievance-form').classList.remove('hidden');
+        document.getElementById('modal-grievance-success').classList.add('hidden');
+        document.getElementById('grievance-modal').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function closeGrievanceModal() {
+        document.getElementById('grievance-modal').classList.add('hidden');
+    }
+
+    async function submitModalGrievance(e) {
+        e.preventDefault();
+        const payload = {
+            sector: currentBatchData ? currentBatchData.product.sector : "FOOD_CONSUMABLES",
+            product_name: document.getElementById('m-g-prod').value,
+            batch_number: document.getElementById('m-g-batch').value,
+            shop_name: document.getElementById('m-g-shop').value,
+            shop_location: document.getElementById('m-g-loc').value,
+            issue_category: "Recalled / Hazardous Batch Reported on Shelf",
+            description: document.getElementById('m-g-desc').value,
+            consumer_phone: document.getElementById('m-g-phone').value,
+            adverse_health_event: true
+        };
+
+        try {
+            const res = await fetch('/api/productguard/grievance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            document.getElementById('modal-grievance-form').classList.add('hidden');
+            const sbox = document.getElementById('modal-grievance-success');
+            sbox.classList.remove('hidden');
+            document.getElementById('m-success-docket-no').textContent = data.docket_number;
+            lucide.createIcons();
+        } catch (err) {
+            alert("Error filing grievance: " + err);
+        }
+    }
+
+    // Retailer Inventory
+    async function loadRetailerInventory() {
+        try {
+            const res = await fetch('/api/productguard/inventory');
+            inventoryData = await res.json();
+            renderInventoryTable(inventoryData);
+            updateRetailerMetrics(inventoryData);
+        } catch (e) {
+            console.error("Error loading inventory:", e);
+        }
+    }
+
+    function renderInventoryTable(items) {
+        const tbody = document.getElementById('inventory-table-body');
+        tbody.innerHTML = '';
+        if (items.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-slate-400">No inventory records matching filter.</td></tr>`;
+            return;
+        }
+
+        items.forEach(item => {
+            let badgeClass = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+            if (item.health_status === 'RECALLED') badgeClass = 'bg-rose-100 text-rose-800 border-rose-300 animate-pulse';
+            else if (item.health_status === 'EXPIRED') badgeClass = 'bg-red-100 text-red-800 border-red-300';
+            else if (item.health_status === 'EXPIRING_SOON') badgeClass = 'bg-amber-100 text-amber-800 border-amber-300';
+
+            tbody.innerHTML += `
+                <tr class="hover:bg-slate-50 transition ${item.marked_for_removal ? 'bg-slate-100/80 opacity-60' : ''}">
+                    <td class="py-2.5 px-3">
+                        <div class="font-bold text-slate-800">${item.store_name}</div>
+                        <div class="text-[10px] text-slate-400">${item.store_location}</div>
+                    </td>
+                    <td class="py-2.5 px-3">
+                        <div class="font-semibold text-slate-800">${item.product_name}</div>
+                        <div class="text-[10px] text-slate-500">${item.brand_name} • <span class="font-bold text-indigo-600">${item.sector.replace('_', ' ')}</span></div>
+                    </td>
+                    <td class="py-2.5 px-3 font-mono font-bold text-amber-700">${item.batch_number}</td>
+                    <td class="py-2.5 px-3">
+                        <div>${item.expiry_date}</div>
+                        <div class="text-[10px] text-slate-400 font-semibold">${item.days_left < 0 ? Math.abs(item.days_left) + 'd overdue' : item.days_left + 'd left'}</div>
+                    </td>
+                    <td class="py-2.5 px-3 font-mono text-[11px] text-slate-600">${item.storage_temperature || 'Ambient'}</td>
+                    <td class="py-2.5 px-3">
+                        <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-extrabold border ${badgeClass}">
+                            ${item.health_status}
+                        </span>
+                        ${item.is_recalled ? `<div class="text-[9px] text-rose-600 max-w-xs mt-0.5 truncate">${item.recall_reason}</div>` : ''}
+                    </td>
+                    <td class="py-2.5 px-3 text-right">
+                        <button type="button" onclick="toggleRemoval(${item.id})"
+                                class="px-2.5 py-1 rounded-lg text-xs font-bold transition ${
+                                    item.marked_for_removal ? 
+                                    'bg-slate-200 text-slate-700 hover:bg-slate-300' : 
+                                    'bg-rose-600 hover:bg-rose-700 text-white shadow-sm'
+                                }">
+                            ${item.marked_for_removal ? 'Marked for Return ✓' : 'Mark for Removal'}
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+        lucide.createIcons();
+    }
+
+    function filterInventoryBySector(sec) {
+        selectedSectorFilter = sec;
+        const btnAll = document.getElementById('f-sec-all');
+        const btnHealth = document.getElementById('f-sec-health');
+        const btnBaby = document.getElementById('f-sec-baby');
+        const btnFood = document.getElementById('f-sec-food');
+
+        [btnAll, btnHealth, btnBaby, btnFood].forEach(b => b.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 text-slate-700 border border-slate-200");
+        if (sec === 'ALL') btnAll.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-white";
+        else if (sec === 'HEALTH_PHARMA') btnHealth.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition bg-rose-600 text-white";
+        else if (sec === 'BABY_PRODUCTS') btnBaby.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition bg-blue-600 text-white";
+        else if (sec === 'FOOD_CONSUMABLES') btnFood.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition bg-emerald-600 text-white";
+
+        if (sec === 'ALL') renderInventoryTable(inventoryData);
+        else renderInventoryTable(inventoryData.filter(i => i.sector === sec));
+    }
+
+    function updateRetailerMetrics(items) {
+        document.getElementById('stat-ret-total').textContent = items.length;
+        document.getElementById('stat-ret-safe').textContent = items.filter(i => i.health_status === 'SAFE').length;
+        document.getElementById('stat-ret-expiring').textContent = items.filter(i => i.health_status === 'EXPIRING_SOON').length;
+        document.getElementById('stat-ret-recalled').textContent = items.filter(i => i.health_status === 'RECALLED').length;
+        document.getElementById('stat-ret-expired').textContent = items.filter(i => i.health_status === 'EXPIRED').length;
+    }
+
+    async function toggleRemoval(itemId) {
+        try {
+            const res = await fetch(`/api/productguard/inventory/${itemId}/toggle-removal`, { method: 'POST' });
+            if (res.ok) await loadRetailerInventory();
+        } catch (e) {
+            alert("Action failed: " + e);
+        }
+    }
+
+    function exportInventoryReport() {
+        let csv = "Store,Location,Product,Brand,Sector,Batch,ExpiryDate,DaysLeft,Storage,Status,MarkedForRemoval\n";
+        inventoryData.forEach(i => {
+            csv += `"${i.store_name}","${i.store_location}","${i.product_name}","${i.brand_name}","${i.sector}","${i.batch_number}","${i.expiry_date}",${i.days_left},"${i.storage_temperature}","${i.health_status}",${i.marked_for_removal}\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `productguard_multi_sector_audit_${new Date().toISOString().slice(0,10)}.csv`;
+        a.click();
+    }
+
+    function updateCategoryOptions() {
+        // dynamic helper if needed
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setPGScriptLang('en');
+        lucide.createIcons();
+    });
+</script>
+{% endblock %}

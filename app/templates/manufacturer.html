@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}Manufacturer Portal & Model Approval Registry | DISHA AI{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8" x-data="manufacturerPortal()">
+
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-950 via-slate-900 to-gov-blue text-white p-6 sm:p-8 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between md:items-center gap-4">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-blue-500/20 border border-blue-400 flex items-center justify-center text-2xl font-bold text-blue-300">
+                🏭
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-2xl font-bold">National Model Approval & Pattern Evaluation Registry</h1>
+                    <span class="bg-blue-500/30 text-blue-200 text-xs px-2.5 py-0.5 rounded-full font-mono">RRSL / OIML R-76</span>
+                </div>
+                <p class="text-xs text-slate-300">Under Section 22 of Legal Metrology Act, 2009 • Mandatory for scale manufacturers & importers</p>
+            </div>
+        </div>
+
+        <div>
+            <button @click="openModal = true" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                <span>Submit Model for Approval</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Live Search / Verification Bar -->
+    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="w-full sm:max-w-md">
+            <label class="block text-xs font-bold text-slate-700 mb-1">Verify Government Model Approval Number</label>
+            <div class="flex gap-2">
+                <input type="text" x-model="searchApprovalNo" placeholder="e.g. IND/09/2021/418" class="flex-1 border border-slate-300 rounded-lg p-2 text-xs font-mono">
+                <button @click="verifyModel()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2 rounded-lg transition">
+                    Check Lab Status
+                </button>
+            </div>
+        </div>
+        <div class="text-xs text-slate-500 max-w-sm">
+            Scales sold without RRSL model approval are illegal under Section 22 and cannot be verified by inspectors.
+        </div>
+    </div>
+
+    <!-- Verified Model Result Alert -->
+    <div x-show="verifiedResult" class="p-4 bg-emerald-50 border border-emerald-300 rounded-xl space-y-1 text-xs" style="display: none;">
+        <div class="font-bold text-emerald-900 flex items-center gap-1.5">
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+            <span>GENUINE GOVERNMENT MODEL APPROVAL: <span class="font-mono" x-text="verifiedResult?.approval_number"></span></span>
+        </div>
+        <div class="text-emerald-800 grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+            <div><strong>Manufacturer:</strong> <span x-text="verifiedResult?.manufacturer"></span></div>
+            <div><strong>Brand & Make:</strong> <span x-text="verifiedResult?.brand"></span></div>
+            <div><strong>Testing Lab:</strong> <span x-text="verifiedResult?.rrsl_lab"></span></div>
+            <div><strong>Standard:</strong> <span x-text="verifiedResult?.oiml_standard"></span></div>
+        </div>
+    </div>
+
+    <!-- National Approved Models Table -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+            <div>
+                <h2 class="text-base font-bold text-slate-900">Official National Model Approval Registry</h2>
+                <p class="text-xs text-slate-500">Certified by Regional Reference Standard Laboratories (RRSL)</p>
+            </div>
+            <button @click="loadModels()" class="text-xs text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
+            </button>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                    <tr>
+                        <th class="p-4">Approval Certificate No.</th>
+                        <th class="p-4">Manufacturer & Brand</th>
+                        <th class="p-4">Category & Capacity</th>
+                        <th class="p-4">Testing Laboratory</th>
+                        <th class="p-4">OIML Standard</th>
+                        <th class="p-4">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <template x-for="item in models" :key="item.id">
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-mono font-bold text-slate-900" x-text="item.approval_number"></td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-900" x-text="item.brand_name"></div>
+                                <div class="text-[11px] text-slate-500" x-text="item.manufacturer_name"></div>
+                            </td>
+                            <td class="p-4">
+                                <div class="font-medium text-slate-800" x-text="item.instrument_type"></div>
+                                <div class="text-[11px] text-slate-500" x-text="'Max: ' + item.max_capacity + ' (' + item.accuracy_class + ')'"></div>
+                            </td>
+                            <td class="p-4 text-slate-700" x-text="item.rrsl_testing_lab"></td>
+                            <td class="p-4 font-mono text-[11px] text-slate-600" x-text="item.oiml_recommendation"></td>
+                            <td class="p-4">
+                                <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full text-[10px]" x-text="item.status"></span>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Apply Modal -->
+    <div x-show="openModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" style="display: none;">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-900 text-base">Model Approval Application</h3>
+                <button @click="openModal = false" class="text-slate-400 hover:text-slate-600">✕</button>
+            </div>
+
+            <form @submit.prevent="submitModel()" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Manufacturer Corporate Name</label>
+                    <input type="text" x-model="form.manufacturer_name" required placeholder="e.g. Precision Weighing Systems India Pvt Ltd" class="w-full border border-slate-300 rounded-lg p-2">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Brand & Model Name</label>
+                        <input type="text" x-model="form.brand_name" required placeholder="e.g. Eagle ProScale 500" class="w-full border border-slate-300 rounded-lg p-2">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Instrument Category</label>
+                        <input type="text" x-model="form.instrument_type" required placeholder="e.g. Electronic Platform Scale" class="w-full border border-slate-300 rounded-lg p-2">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Max Capacity</label>
+                        <input type="text" x-model="form.max_capacity" required placeholder="e.g. 500 kg" class="w-full border border-slate-300 rounded-lg p-2">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Accuracy Class</label>
+                        <select x-model="form.accuracy_class" class="w-full border border-slate-300 rounded-lg p-2">
+                            <option value="Class II">Class II (High Precision)</option>
+                            <option value="Class III" selected>Class III (Commercial)</option>
+                            <option value="Class IIII">Class IIII (Heavy Industrial)</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">RRSL Laboratory Assigned for Testing</label>
+                    <select x-model="form.rrsl_testing_lab" class="w-full border border-slate-300 rounded-lg p-2">
+                        <option value="RRSL Faridabad (Govt of India)">RRSL Faridabad (Govt of India)</option>
+                        <option value="RRSL Bengaluru (Govt of India)">RRSL Bengaluru (Govt of India)</option>
+                        <option value="RRSL Ahmedabad (Govt of India)">RRSL Ahmedabad (Govt of India)</option>
+                        <option value="RRSL Bhubaneswar (Govt of India)">RRSL Bhubaneswar (Govt of India)</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" @click="openModal = false" class="px-4 py-2 text-slate-600">Cancel</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg">Submit for Testing</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function manufacturerPortal() {
+    return {
+        models: [],
+        openModal: false,
+        searchApprovalNo: '',
+        verifiedResult: null,
+        form: {
+            manufacturer_name: '',
+            brand_name: '',
+            instrument_type: '',
+            accuracy_class: 'Class III',
+            max_capacity: '',
+            rrsl_testing_lab: 'RRSL Faridabad (Govt of India)'
+        },
+        init() {
+            this.loadModels();
+        },
+        loadModels() {
+            fetch('/api/manufacturers/models')
+                .then(res => res.json())
+                .then(data => {
+                    this.models = data;
+                    setTimeout(() => lucide.createIcons(), 50);
+                });
+        },
+        async submitModel() {
+            try {
+                const res = await fetch('/api/manufacturers/models', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(this.form)
+                });
+                const data = await res.json();
+                alert('Model Application Approved! Generated Approval No: ' + data.approval_number);
+                this.openModal = false;
+                this.loadModels();
+            } catch(e) {
+                alert('Error: ' + e.message);
+            }
+        },
+        async verifyModel() {
+            if (!this.searchApprovalNo.trim()) return;
+            try {
+                const res = await fetch('/api/manufacturers/verify-model/' + encodeURIComponent(this.searchApprovalNo.trim()));
+                if (!res.ok) throw new Error('Invalid or counterfeit model approval number');
+                this.verifiedResult = await res.json();
+                setTimeout(() => lucide.createIcons(), 50);
+            } catch(e) {
+                alert(e.message);
+                this.verifiedResult = null;
+            }
+        }
+    }
+}
+</script>
+{% endblock %}

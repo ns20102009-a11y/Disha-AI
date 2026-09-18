@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DISHA AI | National Legal Metrology Executive Brief</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between select-none font-sans overflow-hidden">
+
+    <!-- Top Status Bar -->
+    <header class="p-4 sm:p-6 flex justify-between items-center border-b border-slate-800 bg-slate-900/60 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+            <span class="text-2xl">⚖️</span>
+            <div>
+                <div class="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+                    DISHA AI <span class="text-[10px] bg-amber-500 text-slate-950 font-extrabold px-2 py-0.5 rounded-full">GOVT OF INDIA</span>
+                </div>
+                <div class="text-[11px] text-slate-400">Ministry of Consumer Affairs, Food & Public Distribution</div>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3 text-xs">
+            <span id="slide-indicator" class="font-mono text-amber-400 font-bold">Slide 1 / 6</span>
+            <a href="/" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Live Portal
+            </a>
+        </div>
+    </header>
+
+    <!-- Slides Container -->
+    <main class="flex-grow flex items-center justify-center p-6 max-w-6xl mx-auto w-full">
+
+        <!-- SLIDE 1: TITLE & HOOK -->
+        <div class="slide active flex-col items-center text-center space-y-6 max-w-4xl" data-slide="1">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-400/30 rounded-full text-xs font-semibold">
+                <span>National Legal Metrology Digital Transformation Initiative</span>
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight bg-gradient-to-r from-amber-400 via-white to-emerald-400 bg-clip-text text-transparent">
+                DISHA AI: National Online Verification & Stamping System
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                Transforming Legal Metrology with <strong>GPS-Geofenced Inspections</strong>, <strong>Cryptographic Digital QR Seals</strong>, and <strong>Live IoT Telemetry</strong>.
+            </p>
+            <div class="grid grid-cols-3 gap-4 pt-6 max-w-xl mx-auto w-full text-left text-xs">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-1">
+                    <span class="text-emerald-400 font-bold text-lg">100%</span>
+                    <p class="text-slate-400">Anti-Ghost Inspection Geofencing</p>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-1">
+                    <span class="text-amber-400 font-bold text-lg">SHA-256</span>
+                    <p class="text-slate-400">Tamper-Proof Digital Certificates</p>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-1">
+                    <span class="text-blue-400 font-bold text-lg">&lt; 1.5s</span>
+                    <p class="text-slate-400">Public Phone QR Verification</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: THE PROBLEM -->
+        <div class="slide flex-col space-y-6 max-w-4xl w-full" data-slide="2">
+            <div class="text-xs text-amber-400 uppercase font-mono font-bold tracking-widest">Ground Realities & Challenges</div>
+            <h2 class="text-3xl sm:text-4xl font-black text-white">Why the Current System Fails Citizens & Government</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4">
+                <div class="bg-slate-900 p-5 rounded-2xl border border-red-500/30 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-xl">1</div>
+                    <h3 class="font-bold text-base text-red-300">Lead Seal & Paper Forgery</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Physical lead wire seals are easily clamped, duplicated, or cut. Paper Form-VIII certificates are forged with color photocopies without any digital audit trail.
+                    </p>
+                </div>
+
+                <div class="bg-slate-900 p-5 rounded-2xl border border-amber-500/30 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xl">2</div>
+                    <h3 class="font-bold text-base text-amber-300">"Table Inspections"</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Corrupt or overworked inspectors sign verification papers from their offices without physically visiting the shop or weighbridge to test calibration standards.
+                    </p>
+                </div>
+
+                <div class="bg-slate-900 p-5 rounded-2xl border border-blue-500/30 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xl">3</div>
+                    <h3 class="font-bold text-base text-blue-300">Zero Consumer Transparency</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        When an Indian consumer buys groceries or a truck rolls onto a highway weighbridge, they have NO instant way to check if the scale is legally calibrated or rigged.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: OUR 4 PILLARS -->
+        <div class="slide flex-col space-y-6 max-w-4xl w-full" data-slide="3">
+            <div class="text-xs text-emerald-400 uppercase font-mono font-bold tracking-widest">Our Innovation Architecture</div>
+            <h2 class="text-3xl sm:text-4xl font-black text-white">The 4 Anti-Fraud Pillars of DISHA AI</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex gap-4 items-start">
+                    <div class="p-3 bg-emerald-500/20 text-emerald-400 rounded-lg text-xl">📍</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">1. GPS Geofence Anti-Ghost Guard</h4>
+                        <p class="text-xs text-slate-400 mt-1">Inspector's device must be within 150m of registered shop GPS. App locks stamping if officer is away.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex gap-4 items-start">
+                    <div class="p-3 bg-blue-500/20 text-blue-400 rounded-lg text-xl">🔐</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">2. HMAC-SHA256 Signed Seals</h4>
+                        <p class="text-xs text-slate-400 mt-1">Every certificate and QR code carries a cryptographic signature that instantly flags forged or modified records.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex gap-4 items-start">
+                    <div class="p-3 bg-amber-500/20 text-amber-400 rounded-lg text-xl">📡</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">3. Direct IoT Load-Cell Telemetry</h4>
+                        <p class="text-xs text-slate-400 mt-1">Weight readings stream directly via RS-232/BLE into the verification checklist, eliminating manual data tampering.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex gap-4 items-start">
+                    <div class="p-3 bg-purple-500/20 text-purple-400 rounded-lg text-xl">📱</div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">4. Citizen Phone Camera Verification</h4>
+                        <p class="text-xs text-slate-400 mt-1">No app download needed. Pointing any smartphone camera at the scale sticker reveals the live Green Trust Badge.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: AI SURVEILLANCE -->
+        <div class="slide flex-col space-y-6 max-w-4xl w-full" data-slide="4">
+            <div class="text-xs text-purple-400 uppercase font-mono font-bold tracking-widest">Advanced Intelligence</div>
+            <h2 class="text-3xl sm:text-4xl font-black text-white">AI Vigilance & Anomaly Detection Engine</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="text-purple-400 font-bold text-sm flex items-center gap-2">
+                        <i data-lucide="zap" class="w-4 h-4"></i> Inspection Velocity Anomalies
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        AI automatically flags inspectors who approve multiple scales across distant locations at impossible speeds (e.g. 50 km in 20 minutes), detecting proxy inspections.
+                    </p>
+                </div>
+
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="text-amber-400 font-bold text-sm flex items-center gap-2">
+                        <i data-lucide="alert-triangle" class="w-4 h-4"></i> Consumer Complaint Clustering
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Statistical clustering identifies shops receiving repeated short-weighing complaints, calculates an automated Fraud Risk Score (0-100%), and orders flying squad surprise raids.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: SCENARIO & LIVE DEMO PROMPT -->
+        <div class="slide flex-col items-center text-center space-y-6 max-w-4xl w-full" data-slide="5">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-full text-xs font-semibold">
+                <span>The Live Jury Demonstration</span>
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white">
+                Experience It Live with Your Own Smartphone
+            </h2>
+            <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
+                Judges are invited to open their phone camera and scan the scale sticker on screen right now!
+            </p>
+
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 max-w-md mx-auto space-y-3">
+                <div class="flex justify-center gap-4">
+                    <a href="/verify/LM-CE-2026-695587" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-lg text-xs transition">
+                        Open Public Trust Badge
+                    </a>
+                    <a href="/inspector" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-lg text-xs transition">
+                        Open LMO Geofence App
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: NATIONAL IMPACT -->
+        <div class="slide flex-col items-center text-center space-y-6 max-w-4xl w-full" data-slide="6">
+            <div class="text-xs text-amber-400 uppercase font-mono font-bold tracking-widest">National Impact & Scalability</div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white">Building a Fraud-Free India</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-4 text-left text-xs max-w-3xl w-full">
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-emerald-400 font-bold text-sm">Consumer Protection</div>
+                    <p class="text-slate-400">Guarantees that 1.4 billion Indian citizens get exact measures for what they pay.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-amber-400 font-bold text-sm">Revenue Assurance</div>
+                    <p class="text-slate-400">Eliminates toll weighbridge fraud and leakages in agricultural APMC mandis.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-blue-400 font-bold text-sm">100% Digital Metrology</div>
+                    <p class="text-slate-400">Full paperless lifecycle compliance aligned with Digital India and OIML R-76.</p>
+                </div>
+            </div>
+            <div class="pt-4">
+                <a href="/" class="bg-gradient-to-r from-amber-500 to-emerald-500 text-slate-950 font-black px-6 py-3 rounded-xl shadow-lg transition text-sm">
+                    Enter DISHA AI Portal Hub →
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Controls -->
+    <footer class="p-4 sm:p-6 border-t border-slate-800 bg-slate-900/60 backdrop-blur-md flex justify-between items-center max-w-6xl mx-auto w-full">
+        <div class="text-xs text-slate-500 hidden sm:block">
+            Use <kbd class="px-2 py-0.5 bg-slate-800 rounded text-slate-300 font-mono">←</kbd> and <kbd class="px-2 py-0.5 bg-slate-800 rounded text-slate-300 font-mono">→</kbd> keys to navigate slides
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="prevSlide()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-1">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i> Previous
+            </button>
+            <button onclick="nextSlide()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-5 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1 shadow">
+                Next <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function showSlide(n) {
+            if (n < 1) n = 1;
+            if (n > totalSlides) n = totalSlides;
+            currentSlide = n;
+
+            document.querySelectorAll('.slide').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            const active = document.querySelector(`.slide[data-slide="${n}"]`);
+            if (active) active.classList.add('active');
+
+            document.getElementById('slide-indicator').textContent = `Slide ${n} / ${totalSlides}`;
+            lucide.createIcons();
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { nextSlide(); }
+            if (e.key === 'ArrowLeft') { prevSlide(); }
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

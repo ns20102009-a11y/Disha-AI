@@ -1,0 +1,398 @@
+{% extends "base.html" %}
+
+{% block title %}Ministry Admin Analytics | DISHA AI{% endblock %}
+
+{% block content %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8" x-data="adminDashboard()">
+
+    <!-- Ministry Header -->
+    <div class="bg-gradient-to-r from-purple-950 via-slate-900 to-gov-blue text-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between md:items-center gap-4">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-purple-500/20 border border-purple-400 flex items-center justify-center text-2xl font-bold text-purple-300">
+                🇮🇳
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-2xl font-bold">National Legal Metrology Control Centre</h1>
+                    <span class="bg-purple-500/30 text-purple-200 text-xs px-2.5 py-0.5 rounded-full font-mono">DIRECTORATE HQ</span>
+                </div>
+                <p class="text-xs text-slate-300">Controller of Legal Metrology: Dr. Ananya Roy (IAS) • Central Monitoring System</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <button @click="triggerExpiryCheck()" :disabled="scanningAlerts"
+                    class="bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
+                <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+                <span x-text="scanningAlerts ? 'Scanning...' : 'Trigger Expiry Alerts (SMS/WA)'"></span>
+            </button>
+            <button @click="loadData()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition flex items-center gap-1.5">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Live Feed
+            </button>
+        </div>
+    </div>
+
+    <!-- LIVE COMPLIANCE DEMO SCENARIO SWITCHER -->
+    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-4 rounded-xl border border-slate-700 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+            <span class="p-1.5 bg-amber-500 text-slate-950 rounded font-bold text-xs">SIMULATION</span>
+            <div>
+                <div class="text-xs font-bold">Official Compliance Scenario Controller</div>
+                <div class="text-[10px] text-slate-400">Instantly switch live states to test public trust badges and tamper audits</div>
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-2 text-xs">
+            <button @click="setScenario('compliant')" class="bg-emerald-700 hover:bg-emerald-600 px-3 py-1.5 rounded font-semibold transition">
+                🟢 Scenario 1: Compliant Scale
+            </button>
+            <button @click="setScenario('expired')" class="bg-amber-700 hover:bg-amber-600 px-3 py-1.5 rounded font-semibold transition">
+                🟡 Scenario 2: Expired Stamping
+            </button>
+            <button @click="setScenario('fraud')" class="bg-red-700 hover:bg-red-600 px-3 py-1.5 rounded font-semibold transition">
+                🔴 Scenario 3: Broken Seal Fraud
+            </button>
+        </div>
+    </div>
+
+    <!-- AI VIGILANCE & ANOMALY SURVEILLANCE PANEL -->
+    <div class="bg-purple-950/20 border-2 border-purple-500/40 rounded-2xl p-6 space-y-4 shadow-sm">
+        <div class="flex justify-between items-center border-b border-purple-200/20 pb-3">
+            <div class="flex items-center gap-2">
+                <div class="p-2 bg-purple-600 text-white rounded-lg">
+                    <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">AI Vigilance & Ghost Inspection Anomaly Engine</h3>
+                    <p class="text-xs text-slate-500">Autonomous statistical surveillance detecting proxy inspections & short-weighing clusters</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-[10px] text-slate-400 font-mono">NATIONAL INTEGRITY SCORE</div>
+                <div class="text-xl font-extrabold text-purple-700" x-text="vigilanceData?.national_integrity_score || '88%'"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <template x-for="item in vigilanceData?.anomalies" :key="item.type">
+                <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-xs space-y-2 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="font-mono font-bold text-[10px] px-2 py-0.5 rounded"
+                              :class="item.severity === 'CRITICAL' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'"
+                              x-text="item.type"></span>
+                        <span class="font-bold text-slate-400" x-text="'Risk: ' + (item.risk_score ? item.risk_score + '%' : 'HIGH')"></span>
+                    </div>
+                    <p class="text-slate-700 font-medium" x-text="item.description"></p>
+                    <div class="bg-slate-50 p-2 rounded text-[11px] text-slate-600">
+                        <strong>Action:</strong> <span x-text="item.action_recommended"></span>
+                    </div>
+                    <div class="pt-1 flex justify-end">
+                        <button @click="orderRaid(item.instrument_uid || 'INST-GENERAL')" class="bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold px-3 py-1.5 rounded transition">
+                            Order Flying Squad Raid →
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- 4 KPI Metrics Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex justify-between items-center text-slate-500 text-xs">
+                <span>Total Onboarded Instruments</span>
+                <i data-lucide="scale" class="w-4 h-4 text-blue-600"></i>
+            </div>
+            <div class="text-3xl font-extrabold text-slate-900" x-text="stats?.total_instruments || 0"></div>
+            <div class="text-[11px] text-emerald-600 font-semibold">↑ Real-time legal tracking</div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex justify-between items-center text-slate-500 text-xs">
+                <span>National Compliance Rate</span>
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+            </div>
+            <div class="text-3xl font-extrabold text-emerald-600" x-text="(stats?.compliance_rate || 0) + '%'"></div>
+            <div class="text-[11px] text-slate-500">Active cryptographic seals</div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex justify-between items-center text-slate-500 text-xs">
+                <span>Pending Field Inspections</span>
+                <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
+            </div>
+            <div class="text-3xl font-extrabold text-amber-600" x-text="stats?.pending_count || 0"></div>
+            <div class="text-[11px] text-amber-700 font-semibold">Assigned to field officers</div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex justify-between items-center text-slate-500 text-xs">
+                <span>Active Consumer Grievances</span>
+                <i data-lucide="alert-octagon" class="w-4 h-4 text-red-600"></i>
+            </div>
+            <div class="text-3xl font-extrabold text-red-600" x-text="stats?.complaints_count || 0"></div>
+            <div class="text-[11px] text-red-600 font-semibold">Public reports flagged</div>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE GIS MAP VIEW -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-3">
+            <div>
+                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                    <i data-lucide="map" class="w-5 h-5 text-purple-600"></i>
+                    <span>National GIS Heatmap & Premise Verification Map</span>
+                </h3>
+                <p class="text-xs text-slate-500">Real-time geographic distribution of registered commercial instruments and compliance status</p>
+            </div>
+            <div class="flex items-center gap-3 text-xs">
+                <span class="inline-flex items-center gap-1 font-semibold text-emerald-700"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Verified</span>
+                <span class="inline-flex items-center gap-1 font-semibold text-amber-700"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Pending</span>
+                <span class="inline-flex items-center gap-1 font-semibold text-red-700"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Grievance</span>
+            </div>
+        </div>
+
+        <div id="gis-map" class="w-full h-80 rounded-xl border border-slate-300 z-10"></div>
+    </div>
+
+    <!-- Middle Grid: Geofence Audits & Consumer Complaints -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        <!-- Geofence & Inspection Audit Trail -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-sm">Anti-Fraud Inspection Audit Log</h3>
+                    <p class="text-xs text-slate-500">Verifying that inspectors were physically at the shop</p>
+                </div>
+                <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded">100% Geofenced</span>
+            </div>
+
+            <div class="space-y-3">
+                <template x-for="insp in stats?.recent_inspections" :key="insp.id">
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex justify-between items-center text-xs">
+                        <div class="space-y-1">
+                            <div class="font-bold text-slate-800" x-text="'Inspection #' + insp.id + ' • Status: ' + insp.status"></div>
+                            <div class="text-slate-500 flex items-center gap-1 font-mono text-[11px]">
+                                <i data-lucide="map-pin" class="w-3 h-3 text-emerald-600"></i>
+                                <span x-text="'Distance from shop: ' + insp.distance_from_shop_meters + ' m'"></span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold"
+                                  :class="insp.is_geofence_passed ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'"
+                                  x-text="insp.is_geofence_passed ? 'GPS VERIFIED' : 'FAILED GEOFENCE'"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Consumer Grievances Table -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-sm">Citizen Fraud Reports (Grievance Redressal)</h3>
+                    <p class="text-xs text-slate-500">Complaints filed by consumers scanning scale QR codes</p>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <template x-for="comp in complaints" :key="comp.id">
+                    <div class="p-3 rounded-lg border border-slate-200 space-y-1 text-xs"
+                         :class="comp.status === 'OPEN' ? 'bg-red-50/50 border-red-200' : 'bg-slate-50'">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-slate-900" x-text="comp.complainant_name"></span>
+                            <span class="font-mono text-[10px] font-bold px-2 py-0.5 rounded"
+                                  :class="comp.status === 'OPEN' ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'"
+                                  x-text="comp.status"></span>
+                        </div>
+                        <div class="text-red-700 font-semibold" x-text="comp.complaint_type"></div>
+                        <p class="text-slate-600 text-[11px]" x-text="comp.description"></p>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- AUTOMATED NOTIFICATION & EXPIRY ALERT LOG -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+            <div>
+                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i data-lucide="message-square" class="w-4 h-4 text-emerald-600"></i>
+                    <span>Automated Statutory Expiry & Renewal Alerts (WhatsApp / SMS Engine)</span>
+                </h3>
+                <p class="text-xs text-slate-500">Automated legal notices dispatched to scale owners 30/15 days before expiry</p>
+            </div>
+            <span class="text-xs font-mono font-bold bg-slate-100 px-2.5 py-1 rounded text-slate-700" x-text="notifications.length + ' Notices Dispatched'"></span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                    <tr>
+                        <th class="p-3">Time</th>
+                        <th class="p-3">Trader & Shop</th>
+                        <th class="p-3">Scale Serial</th>
+                        <th class="p-3">Urgency</th>
+                        <th class="p-3">Channels</th>
+                        <th class="p-3">Dispatched Content Preview</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <template x-for="item in notifications" :key="item.id">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-mono text-slate-500" x-text="item.timestamp"></td>
+                            <td class="p-3">
+                                <div class="font-bold text-slate-900" x-text="item.shop_name"></div>
+                                <div class="text-[11px] text-slate-500" x-text="item.owner_name + ' (' + item.phone + ')'"></div>
+                            </td>
+                            <td class="p-3 font-mono font-bold text-slate-800" x-text="item.serial_number"></td>
+                            <td class="p-3">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800" x-text="item.urgency"></span>
+                            </td>
+                            <td class="p-3">
+                                <span class="text-emerald-700 font-semibold">WhatsApp & SMS</span>
+                            </td>
+                            <td class="p-3 max-w-xs truncate text-[11px] text-slate-600 font-mono" x-text="item.sms_body"></td>
+                        </tr>
+                    </template>
+                    <tr x-show="notifications.length === 0">
+                        <td colspan="6" class="p-6 text-center text-slate-400">
+                            Click "Trigger Expiry Alerts (SMS/WA)" above to scan and dispatch statutory notices.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+function adminDashboard() {
+    return {
+        stats: null,
+        complaints: [],
+        notifications: [],
+        vigilanceData: null,
+        scanningAlerts: false,
+        map: null,
+        init() {
+            this.loadData();
+            this.loadNotifications();
+            this.loadVigilance();
+            this.initMap();
+        },
+        loadData() {
+            fetch('/api/analytics')
+                .then(res => res.json())
+                .then(data => {
+                    this.stats = data;
+                    setTimeout(() => lucide.createIcons(), 50);
+                });
+            fetch('/api/complaints/')
+                .then(res => res.json())
+                .then(data => {
+                    this.complaints = data;
+                    setTimeout(() => lucide.createIcons(), 50);
+                });
+        },
+        loadNotifications() {
+            fetch('/api/notifications/logs')
+                .then(res => res.json())
+                .then(data => {
+                    this.notifications = data;
+                    setTimeout(() => lucide.createIcons(), 50);
+                });
+        },
+        loadVigilance() {
+            fetch('/api/vigilance/audit')
+                .then(res => res.json())
+                .then(data => {
+                    this.vigilanceData = data;
+                    setTimeout(() => lucide.createIcons(), 50);
+                });
+        },
+        async setScenario(type) {
+            try {
+                const res = await fetch('/api/demo/scenario/' + type, { method: 'POST' });
+                const data = await res.json();
+                alert('Scenario Activated: ' + data.scenario + '! Certificate updated to ' + data.badge + ' status. Check the public trust badge now.');
+                this.loadData();
+                this.loadVigilance();
+            } catch(e) {
+                alert('Error setting scenario: ' + e.message);
+            }
+        },
+        async orderRaid(uid) {
+            try {
+                const res = await fetch('/api/vigilance/order-raid/' + uid, { method: 'POST' });
+                const data = await res.json();
+                alert('RAID DISPATCHED! Team: ' + data.enforcement_team + '\nDirective: ' + data.directive);
+            } catch(e) {
+                alert('Error ordering raid: ' + e.message);
+            }
+        },
+        async triggerExpiryCheck() {
+            this.scanningAlerts = true;
+            try {
+                const res = await fetch('/api/notifications/trigger-expiry-check', { method: 'POST' });
+                const data = await res.json();
+                alert('Expiry scan completed! Dispatched automated SMS & WhatsApp notices to expiring scale owners.');
+                this.loadNotifications();
+            } catch(e) {
+                alert('Error: ' + e.message);
+            } finally {
+                this.scanningAlerts = false;
+            }
+        },
+        initMap() {
+            setTimeout(() => {
+                if (this.map) return;
+                // Center on Delhi / NCR
+                this.map = L.map('gis-map').setView([28.55, 77.15], 10);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    attribution: '© OpenStreetMap'
+                }).addTo(this.map);
+
+                // Fetch instruments and place markers
+                fetch('/api/instruments/')
+                    .then(res => res.json())
+                    .then(instruments => {
+                        instruments.forEach(inst => {
+                            let color = inst.status === 'VERIFIED' ? 'green' : (inst.status === 'PENDING_VERIFICATION' ? 'orange' : 'red');
+                            const marker = L.circleMarker([inst.latitude, inst.longitude], {
+                                radius: 8,
+                                fillColor: color,
+                                color: '#ffffff',
+                                weight: 2,
+                                opacity: 1,
+                                fillOpacity: 0.85
+                            }).addTo(this.map);
+
+                            marker.bindPopup(`
+                                <div style="font-size: 12px; font-family: sans-serif;">
+                                    <strong>${inst.shop_name}</strong><br/>
+                                    <span>${inst.brand_make} (${inst.max_capacity})</span><br/>
+                                    <span style="font-family: monospace; font-size: 11px;">SN: ${inst.serial_number}</span><br/>
+                                    <span style="color: ${color}; font-weight: bold;">${inst.status}</span><br/>
+                                    <a href="/inspector" style="color: #2563eb; text-decoration: underline;">Open Inspection</a>
+                                </div>
+                            `);
+                        });
+                    });
+            }, 300);
+        }
+    }
+}
+</script>
+{% endblock %}

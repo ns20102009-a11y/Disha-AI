@@ -1,0 +1,51 @@
+/* Custom styles for Legal Metrology Prototype */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Watermark for Government Certificate */
+.cert-watermark {
+    position: relative;
+}
+.cert-watermark::before {
+    content: "LEGAL METROLOGY VERIFIED";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: rgba(15, 41, 66, 0.04);
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 0;
+}
+
+/* Printable Certificate Settings */
+@media print {
+    header, footer, .no-print {
+        display: none !important;
+    }
+    body {
+        background: white !important;
+        padding: 0 !important;
+    }
+    .print-card {
+        box-shadow: none !important;
+        border: 2px solid #0F2942 !important;
+        page-break-inside: avoid;
+    }
+}
+
+/* Pulsing Badge for Live Telemetry */
+@keyframes pulse-ring {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.pulse-badge {
+    animation: pulse-ring 2s infinite ease-in-out;
+}

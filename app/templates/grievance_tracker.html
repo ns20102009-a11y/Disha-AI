@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Citizen Grievance Redressal Tracker | DISHA AI{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8" x-data="grievanceTracker()">
+
+    <!-- Header Section -->
+    <div class="text-center space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-semibold">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+            <span>LEGAL METROLOGY CONSUMER PROTECTION CELL</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">National Consumer Grievance Tracking Desk</h1>
+        <p class="text-xs text-slate-500 max-w-lg mx-auto">Track live enforcement action, surprise raids, and redressal status of your short-weighing complaints</p>
+    </div>
+
+    <!-- Tracking Input Bar -->
+    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm max-w-xl mx-auto space-y-3">
+        <label class="block text-xs font-bold text-slate-700">Enter Your Grievance Reference ID</label>
+        <div class="flex gap-2">
+            <input type="text" x-model="searchId" placeholder="e.g. GRIEV-2026-1049" class="flex-1 border border-slate-300 rounded-xl p-3 text-sm font-mono focus:ring-2 focus:ring-red-500 focus:outline-none">
+            <button @click="trackComplaint()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shadow transition">
+                Track Action
+            </button>
+        </div>
+        <p class="text-[11px] text-slate-400">Sample Reference ID: <button @click="searchId='GRIEV-2026-1049'; trackComplaint()" class="text-blue-600 underline font-mono">GRIEV-2026-1049</button></p>
+    </div>
+
+    <!-- Live Status & Timeline Card -->
+    <div x-show="complaintData" class="bg-white rounded-3xl border-2 border-slate-200 shadow-xl p-6 sm:p-8 space-y-6" style="display: none;">
+        
+        <!-- Status Header -->
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-slate-100 pb-4">
+            <div>
+                <div class="text-xs text-slate-400">GRIEVANCE REFERENCE</div>
+                <div class="text-xl font-extrabold text-slate-900 font-mono" x-text="complaintData?.complaint_id"></div>
+            </div>
+            <div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold font-mono"
+                      :class="complaintData?.status === 'OPEN' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'"
+                      x-text="'STATUS: ' + complaintData?.status"></span>
+            </div>
+        </div>
+
+        <!-- Complaint Info Grid -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+                <span class="text-slate-500 block">Complainant:</span>
+                <span class="font-bold text-slate-900" x-text="complaintData?.complainant_name"></span>
+            </div>
+            <div>
+                <span class="text-slate-500 block">Violation Type:</span>
+                <span class="font-bold text-red-700" x-text="complaintData?.complaint_type"></span>
+            </div>
+            <div class="sm:col-span-2">
+                <span class="text-slate-500 block">Incident Description:</span>
+                <p class="text-slate-800 italic" x-text="complaintData?.description"></p>
+            </div>
+        </div>
+
+        <!-- Visual 4-Step Enforcement Timeline -->
+        <div class="space-y-4 pt-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Official Action Taken Timeline</h3>
+
+            <div class="relative border-l-2 border-emerald-500 ml-4 pl-6 space-y-6 text-xs">
+                <!-- Step 1 -->
+                <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-emerald-600 ring-4 ring-white"></span>
+                    <div class="font-bold text-slate-900">Step 1: Grievance Logged & Geo-Tagged</div>
+                    <p class="text-slate-500 text-[11px]">Consumer submitted report via Public QR Verification Scanner.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-emerald-600 ring-4 ring-white"></span>
+                    <div class="font-bold text-slate-900">Step 2: Legal Metrology Officer Assigned</div>
+                    <p class="text-slate-500 text-[11px]">Assigned to Inspector D.K. Verma (Badge: LMO-DL-07), Central Delhi Division.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-emerald-600 ring-4 ring-white"></span>
+                    <div class="font-bold text-slate-900">Step 3: Surveillance Verification & Field Audit</div>
+                    <p class="text-slate-500 text-[11px]">Inspector scheduled surprise physical audit with certified Class M1 test standards.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative">
+                    <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-amber-500 ring-4 ring-white"></span>
+                    <div class="font-bold text-slate-900">Step 4: Action Taken Report (ATR)</div>
+                    <p class="text-slate-500 text-[11px]">Enforcement notice issued to shopkeeper under Section 15 of Legal Metrology Act, 2009.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function grievanceTracker() {
+    return {
+        searchId: 'GRIEV-2026-1049',
+        complaintData: null,
+        init() {
+            this.trackComplaint();
+        },
+        async trackComplaint() {
+            if (!this.searchId.trim()) return;
+            try {
+                const res = await fetch('/api/complaints/');
+                const list = await res.json();
+                const found = list.find(c => c.complaint_id.toUpperCase() === this.searchId.trim().toUpperCase());
+                if (found) {
+                    this.complaintData = found;
+                } else {
+                    alert('Grievance ID not found in national registry');
+                    this.complaintData = null;
+                }
+                setTimeout(() => lucide.createIcons(), 50);
+            } catch(e) {
+                alert('Error fetching grievance status: ' + e.message);
+            }
+        }
+    }
+}
+</script>
+{% endblock %}

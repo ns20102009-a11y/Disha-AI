@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}IoT Virtual Weighing Scale Hardware Console | DISHA AI{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8" x-data="scaleConsole()">
+
+    <!-- Header Section -->
+    <div class="text-center space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-emerald-400 text-xs font-mono font-bold border border-emerald-500/30">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>RS-232 / MODBUS / BLE HARDWARE EMULATOR ACTIVE</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Virtual Electronic Weighing Indicator (OIML R-76)</h1>
+        <p class="text-xs text-slate-500 max-w-lg mx-auto">Emulates an industrial digital weighing indicator sending continuous weight packets to the Legal Metrology Inspector Toolkit</p>
+    </div>
+
+    <!-- Realistic 7-Segment LED Digital Indicator Unit -->
+    <div class="bg-slate-950 p-8 sm:p-12 rounded-3xl border-4 border-slate-800 shadow-2xl space-y-6 max-w-2xl mx-auto text-white relative">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div class="text-xs font-mono tracking-widest text-slate-400 font-bold uppercase">
+                LEGAL METROLOGY DIGITAL INDICATOR • MODEL DS-252
+            </div>
+            <div class="flex items-center gap-3 text-[11px] font-mono">
+                <span class="flex items-center gap-1 text-emerald-400"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> STABLE</span>
+                <span class="text-slate-500">•</span>
+                <span class="text-amber-400">NET/GROSS</span>
+            </div>
+        </div>
+
+        <!-- Glowing Green 7-Segment LED Screen -->
+        <div class="bg-black/90 p-8 rounded-2xl border-2 border-slate-800 shadow-inner text-right relative overflow-hidden">
+            <div class="absolute left-6 top-6 text-xs font-mono text-emerald-600/60 font-bold uppercase tracking-widest">
+                CLASS III • MAX 30kg • e=1g
+            </div>
+            
+            <div class="font-mono text-6xl sm:text-8xl font-black text-emerald-400 tracking-wider select-all"
+                 style="text-shadow: 0 0 20px rgba(52, 211, 153, 0.6);"
+                 x-text="currentWeight.toFixed(3)">
+            </div>
+            
+            <div class="text-xl sm:text-2xl font-mono text-emerald-500/80 font-bold mt-2">
+                kg
+            </div>
+        </div>
+
+        <!-- Indicator Status LED Bar -->
+        <div class="grid grid-cols-4 gap-2 text-center font-mono text-[10px] text-slate-400">
+            <div class="p-2 bg-slate-900 rounded border border-slate-800" :class="currentWeight === 0 ? 'text-emerald-400 border-emerald-500' : ''">ZERO: YES</div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800 text-emerald-400">STABLE: YES</div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800">TARE: 0.000</div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800 text-blue-400">PORT: COM1</div>
+        </div>
+    </div>
+
+    <!-- Interactive Load-Cell Weight Controls -->
+    <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm max-w-2xl mx-auto space-y-4">
+        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="sliders" class="w-4 h-4 text-emerald-600"></i>
+            <span>Simulate Standard Test Load Placement</span>
+        </h3>
+        <p class="text-xs text-slate-500">Clicking any button immediately injects test loads into the load cell and streams to the Inspector Field App via WebSocket.</p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+            <button @click="setWeight(0.000)" class="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl font-mono text-xs font-bold text-slate-800 transition">
+                0.000 kg (Tare / Zero)
+            </button>
+            <button @click="setWeight(1.000)" class="p-3 bg-blue-50 hover:bg-blue-100 rounded-xl font-mono text-xs font-bold text-blue-800 transition">
+                + 1.000 kg (Class M1)
+            </button>
+            <button @click="setWeight(5.000)" class="p-3 bg-emerald-50 hover:bg-emerald-100 rounded-xl font-mono text-xs font-bold text-emerald-800 transition border border-emerald-300">
+                + 5.000 kg (Standard)
+            </button>
+            <button @click="setWeight(10.000)" class="p-3 bg-purple-50 hover:bg-purple-100 rounded-xl font-mono text-xs font-bold text-purple-800 transition">
+                + 10.000 kg (Full Load)
+            </button>
+            <button @click="setWeight(5.004)" class="p-3 bg-amber-50 hover:bg-amber-100 rounded-xl font-mono text-xs font-bold text-amber-800 transition">
+                5.004 kg (Eccentricity)
+            </button>
+            <button @click="setWeight(4.850)" class="p-3 bg-red-50 hover:bg-red-100 rounded-xl font-mono text-xs font-bold text-red-800 transition">
+                4.850 kg (Under-weight)
+            </button>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center">
+            <a href="/inspector" target="_blank" class="text-xs font-bold text-emerald-600 hover:text-emerald-800 flex items-center gap-1">
+                Open Inspector App to watch live capture →
+            </a>
+            <span class="text-[11px] text-slate-400 font-mono">WebSocket: 2 packets / sec</span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function scaleConsole() {
+    return {
+        currentWeight: 5.000,
+        init() {
+            this.fetchLiveReading();
+            setInterval(() => this.fetchLiveReading(), 1500);
+        },
+        fetchLiveReading() {
+            fetch('/api/iot/current-reading')
+                .then(res => res.json())
+                .then(data => {
+                    this.currentWeight = data.weight;
+                });
+        },
+        async setWeight(w) {
+            try {
+                const res = await fetch('/api/iot/set-simulated-weight', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ weight: w, is_stable: true })
+                });
+                this.currentWeight = w;
+            } catch(e) {
+                console.error(e);
+            }
+        }
+    }
+}
+</script>
+{% endblock %}
