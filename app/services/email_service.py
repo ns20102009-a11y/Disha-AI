@@ -20,11 +20,11 @@ def send_complaint_email(complaint):
     smtp_username = os.getenv("SMTP_USERNAME")
     smtp_password = os.getenv("SMTP_PASSWORD")
 
-    receiver_email = os.getenv("MAIL_RECEIVER")
+    receiver_email = os.getenv("ADMIN_EMAIL")
 
     if not smtp_username or not smtp_password or not receiver_email:
         logger.warning(
-            "Email not sent: SMTP_USERNAME, SMTP_PASSWORD or MAIL_RECEIVER is missing."
+            "Email not sent: SMTP_USERNAME, SMTP_PASSWORD or ADMIN_EMAIL is missing."
         )
         return False
 
